@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiwBooks - Home</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">📚 SiwBooks</div>
+        <nav>
+            <ul>
+                <li><a href="/">Catalogo</a></li>
+                <li><a href="/">Autori</a></li>
+                <li><a href="/">Recensioni</a></li>
+                <li><a href="/">Login</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Cerca libro o autore...">
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Benvenuto su SiwBooks!</h1>
+        <p>Scopri, leggi e recensisci i tuoi libri preferiti.</p>
+        <button>Esplora ora</button>
+    </section>
+
+    <main>
+        <section class="shelf">
+            <h2>Libri disponibili</h2>
+            <div class="books">
+                <div class="book" th:each="libro : ${libri}">
+                    <img th:src="${libro.coverImage != null} ? @{/images/${libro.id}} : '@{https://via.placeholder.com/120x180}'"
+                        th:alt="${libro.title}" />
+                    <p th:text="${libro.title}">Titolo</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SiwBooks. Tutti i diritti riservati.</p>
+    </footer>
+</body>
+
+</html>
