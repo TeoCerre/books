@@ -8,5 +8,6 @@ import it.uniroma3.siw.SiwBooks.model.*;
 public interface BookRepository extends CrudRepository<Book, Long> {
 
     List<Book> findAll();
+    Book findByTitle(String title);
 
 }

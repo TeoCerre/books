@@ -36,12 +36,12 @@
             <h2>Libri disponibili</h2>
             <div class="books">
                 <div class="book" th:each="libro : ${libri}">
-                    <img th:src="${libro.coverImage != null} ? @{/images/${libro.id}} : '@{https://via.placeholder.com/120x180}'"
-                        th:alt="${libro.title}" />
-                    <p th:text="${libro.title}">Titolo</p>
+                    <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
+                    <p th:text="${libro.title}"></p>
                 </div>
             </div>
         </section>
+
 
     </main>
 
