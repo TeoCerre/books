@@ -40,7 +40,10 @@
                         <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
                         <p th:text="${libro.title}"></p>
                     </a>
+                    <p>Valutazione media: <span
+                            th:text="${#numbers.formatDecimal(averageRatings[libro.id], 1, 1)}"></span> / 5</p>
                 </div>
+
 
             </div>
         </section>

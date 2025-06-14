@@ -33,27 +33,43 @@ public class ReviewController {
 
     @PostMapping("/books/{id}/review")
     public String addReview(@PathVariable Long id,
-                             @Valid @ModelAttribute("review") Review review,
-                             BindingResult bindingResult,
-                             @AuthenticationPrincipal UserDetails userDetails,
-                             Model model) {
+            @Valid @ModelAttribute("review") Review review,
+            BindingResult bindingResult,
+            @AuthenticationPrincipal UserDetails userDetails,
+            Model model) {
+
+        System.out.println("📥 POST recensione ricevuto per libro ID: " + id);
 
         Book book = bookService.findById(id);
         if (book == null) {
+            System.out.println("❌ Libro non trovato");
             return "error/404";
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("book", book);             
-            model.addAttribute("review", review);         
-            return "bookDetails";                         
+            System.out.println("⚠️ Errori nel form: " + bindingResult.getAllErrors());
+            model.addAttribute("book", book);
+            model.addAttribute("review", review);
+            return "bookDetails";
         }
 
+        if (userDetails == null) {
+            System.out.println("❌ UserDetails è null");
+            return "redirect:/login";
+        }
+
+        System.out.println("👤 Utente loggato: " + userDetails.getUsername());
         User user = userService.getUserByUsername(userDetails.getUsername());
+
+        if (user == null) {
+            System.out.println("❌ Utente non trovato nel database");
+            return "error/404";
+        }
 
         review.setBook(book);
         review.setAuthor(user);
         reviewService.save(review);
+        System.out.println("✅ Recensione salvata");
 
         return "redirect:/books/" + id;
     }

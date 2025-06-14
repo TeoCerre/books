@@ -50,7 +50,7 @@ public class BookController {
 
     @GetMapping("/books/{id}")
     public String getBookDetails(@PathVariable Long id, Model model) {
-        Book book = bookService.findById(id);
+        Book book = bookService.findByIdWithReviews(id);
         if (book == null) {
             return "error/404"; // oppure una pagina custom di errore
         }

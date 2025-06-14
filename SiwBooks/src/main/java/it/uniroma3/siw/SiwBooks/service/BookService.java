@@ -7,12 +7,22 @@ import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.SiwBooks.model.Book;
 import it.uniroma3.siw.SiwBooks.repository.BookRepository;
+import it.uniroma3.siw.SiwBooks.repository.ReviewRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    public Double getAverageRatingForBook(Long bookId) {
+        return reviewRepository.findAverageRatingByBookId(bookId);
+    }
 
     public List<Book> findAllBooks() {
         return bookRepository.findAll();
@@ -28,6 +38,12 @@ public class BookService {
 
     public void save(Book book) {
         bookRepository.save(book);
+    }
+
+    @Transactional(readOnly = true)
+    public Book findByIdWithReviews(Long id) {
+        return bookRepository.findByIdWithAllDetails(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found"));
     }
 
 }
