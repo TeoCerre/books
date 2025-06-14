@@ -14,6 +14,13 @@ INSERT INTO book (title, year, cover_image) VALUES
 ('Io non ho paura', 2001, NULL),
 ('The Corrections', 2001, NULL);
 
+INSERT INTO book_authors (books_id, authors_id) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);
+
 
 INSERT INTO users (username, email, password, role) VALUES
 ('admin', 'admin@example.com', '$2a$10$7qeqeXv5EIjQnG6Fq1uQyOnv1TTQ4W7PYB4Pz9/h8eC2Xplz06KCa', 'ADMIN');

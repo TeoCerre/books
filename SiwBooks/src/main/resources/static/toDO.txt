@@ -1,1 +1,5 @@
+-aggiungere pagina autori
+-aggiungere foto autori-aggiungere pagina recensioni
+-attivare la ricerca
+-aggiungere funzionalità admin
 
