@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8" />
     <title>Login - SiwBooks</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
     <div class="login-container">
         <h2>Accedi a SiwBooks</h2>
@@ -34,6 +36,12 @@
                 <p style="color:green;">Sei stato disconnesso con successo.</p>
             </div>
         </form>
+        <div class="register-link">
+            <p>Non hai un account?</p>
+            <a th:href="@{/register}"><button type="button">Registrati</button></a>
+        </div>
+
     </div>
 </body>
+
 </html>

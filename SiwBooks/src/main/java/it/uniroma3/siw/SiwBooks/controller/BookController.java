@@ -2,15 +2,15 @@ package it.uniroma3.siw.SiwBooks.controller;
 
 import org.springframework.http.MediaType;
 
-import org.springframework.http.HttpHeaders;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
 
 import it.uniroma3.siw.SiwBooks.model.Book;
+import it.uniroma3.siw.SiwBooks.model.Review;
 import it.uniroma3.siw.SiwBooks.service.BookService;
 
 @Controller
@@ -46,6 +46,17 @@ public class BookController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @GetMapping("/books/{id}")
+    public String getBookDetails(@PathVariable Long id, Model model) {
+        Book book = bookService.findById(id);
+        if (book == null) {
+            return "error/404"; // oppure una pagina custom di errore
+        }
+        model.addAttribute("book", book);
+        model.addAttribute("review", new Review());
+        return "bookDetails";
     }
 
 }

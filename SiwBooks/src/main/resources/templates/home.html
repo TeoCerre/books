@@ -17,7 +17,7 @@
                 <li><a href="/">Catalogo</a></li>
                 <li><a href="/">Autori</a></li>
                 <li><a href="/">Recensioni</a></li>
-                <li><a href="/">Login</a></li>
+                <li><a href="/login">Login</a></li>
             </ul>
         </nav>
         <div class="search-bar">
@@ -36,9 +36,12 @@
             <h2>Libri disponibili</h2>
             <div class="books">
                 <div class="book" th:each="libro : ${libri}">
-                    <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
-                    <p th:text="${libro.title}"></p>
+                    <a th:href="@{'/books/' + ${libro.id}}">
+                        <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
+                        <p th:text="${libro.title}"></p>
+                    </a>
                 </div>
+
             </div>
         </section>
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.title} + ' - Dettagli libro'">Dettagli libro</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">📚 SiwBooks</div>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="book-detail">
+            <h1 th:text="${book.title}">Titolo</h1>
+            <img th:src="@{'/books/' + ${book.id} + '/cover'}" th:alt="${book.title}" />
+            <p><strong>Anno di pubblicazione:</strong> <span th:text="${book.year}">Anno</span></p>
+            <div>
+                <h3>Autori</h3>
+                <ul>
+                    <li th:each="autore : ${book.authors}" th:text="${autore.name + ' ' + autore.surname}">Autore</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Recensioni</h3>
+                <ul>
+                    <li th:each="recensione : ${book.reviews}" th:text="${recensione.content}">Recensione</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Recensioni</h3>
+                <ul>
+                    <li th:each="recensione : ${book.reviews}">
+                        <strong th:text="${recensione.title}">Titolo</strong>
+                        - <span th:text="${recensione.rating} + '/5'">Valutazione</span>
+                        <p th:text="${recensione.text}">Testo</p>
+                        <em th:text="${recensione.author.name}">Autore</em>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Form per nuova recensione -->
+            <div sec:authorize="isAuthenticated()">
+                <h3>Lascia una recensione</h3>
+                <form th:action="@{/books/{id}/review(id=${book.id})}" th:object="${review}" method="post">
+                    <label for="title">Titolo</label>
+                    <input type="text" id="title" th:field="*{title}" required />
+
+                    <label for="text">Testo</label>
+                    <textarea id="text" th:field="*{text}" required></textarea>
+
+                    <label for="rating">Valutazione</label>
+                    <input type="number" id="rating" th:field="*{rating}" min="1" max="5" required />
+
+                    <button type="submit">Invia recensione</button>
+                </form>
+
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SiwBooks. Tutti i diritti riservati.</p>
+    </footer>
+</body>
+
+</html>
