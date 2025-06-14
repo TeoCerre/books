@@ -5,9 +5,10 @@
     <meta charset="UTF-8" />
     <title>Login - SiwBooks</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/login.css" />
 </head>
 
-<body>
+<body class="login-page">
     <div class="login-container">
         <h2>Accedi a SiwBooks</h2>
 
@@ -26,21 +27,19 @@
                 <button type="submit">Accedi</button>
             </div>
 
-            <!-- Messaggio di errore in caso di login fallito -->
             <div th:if="${param.error}">
-                <p style="color:red;">Username o password non validi.</p>
+                <p class="error-message">Username o password non validi.</p>
             </div>
 
-            <!-- Messaggio di logout -->
             <div th:if="${param.logout}">
-                <p style="color:green;">Sei stato disconnesso con successo.</p>
+                <p class="logout-message">Sei stato disconnesso con successo.</p>
             </div>
         </form>
+
         <div class="register-link">
             <p>Non hai un account?</p>
-            <a th:href="@{/register}"><button type="button">Registrati</button></a>
+            <a th:href="@{/register}" class="register-button">Registrati</a>
         </div>
-
     </div>
 </body>
 

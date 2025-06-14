@@ -32,7 +32,6 @@ public class Author {
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

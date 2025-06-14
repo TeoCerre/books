@@ -33,7 +33,6 @@ public class User {
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     private Set<Review> reviews;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

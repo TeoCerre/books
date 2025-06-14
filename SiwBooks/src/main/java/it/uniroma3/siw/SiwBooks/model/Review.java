@@ -33,7 +33,6 @@ public class Review {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

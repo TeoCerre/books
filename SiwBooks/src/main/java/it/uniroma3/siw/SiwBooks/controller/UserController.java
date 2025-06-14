@@ -11,5 +11,4 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    // TO-DO: Add endpoints
 }

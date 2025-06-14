@@ -21,7 +21,6 @@ public class DataInitializer {
     @Bean
     CommandLineRunner loadImages() {
         return args -> {
-            // Titoli e file immagini corrispondenti
             Map<String, String> booksImages = Map.of(
                 "L amica geniale", "L amica geniale.jpeg",
                 "White Noise", "White Noise.jpeg",

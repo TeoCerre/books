@@ -1,0 +1,126 @@
+body.login-page {
+    background-color: #fdfaf6;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3e3e3e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    text-align: center;
+}
+
+.login-container h2 {
+    color: #b08968;
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.login-container form div {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #3e3e3e;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1.5px solid #e6dac5;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #d4a373;
+}
+
+.login-container button[type="submit"] {
+    width: 100%;
+    padding: 14px 0;
+    background-color: #d4a373;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1em;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-container button[type="submit"]:hover {
+    background-color: #c58a54;
+}
+
+.login-container .register-link {
+    margin-top: 20px;
+    font-size: 0.95em;
+}
+
+.login-container .register-link p {
+    margin-bottom: 8px;
+}
+
+.login-container .register-link button {
+    background-color: transparent;
+    border: 2px solid #d4a373;
+    color: #d4a373;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.login-container .register-link button:hover {
+    background-color: #d4a373;
+    color: white;
+}
+
+.login-container p.error-message {
+    color: #e53e3e;
+    font-weight: 600;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+.login-container p.logout-message {
+    color: #38a169;
+    font-weight: 600;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+.register-button {
+    display: inline-block;
+    text-decoration: none;
+    border: 2px solid #d4a373;
+    color: #d4a373;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.register-button:hover {
+    background-color: #d4a373;
+    color: white;
+}

@@ -10,5 +10,4 @@ public class AuthorController {
     @Autowired
     private AuthorRepository authorRepository;
 
-    // TO-DO: Add endpoints
 }

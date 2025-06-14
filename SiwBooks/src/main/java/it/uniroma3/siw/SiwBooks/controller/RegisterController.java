@@ -11,7 +11,7 @@ import it.uniroma3.siw.SiwBooks.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import it.uniroma3.siw.SiwBooks.model.Role; // Add this import if Role is an enum or class in your model package
+import it.uniroma3.siw.SiwBooks.model.Role;
 
 @Controller
 public class RegisterController {
@@ -25,7 +25,7 @@ public class RegisterController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-        return "register"; // Thymeleaf page
+        return "register";
     }
 
     @PostMapping("/register")

@@ -26,7 +26,6 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
     private Set<Review> reviews;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
