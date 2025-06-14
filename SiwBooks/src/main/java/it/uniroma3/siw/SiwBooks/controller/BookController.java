@@ -42,7 +42,6 @@ public class BookController {
                     .body(image);
 
         } catch (Exception e) {
-            // Mostra errore completo nel terminale
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
@@ -52,7 +51,7 @@ public class BookController {
     public String getBookDetails(@PathVariable Long id, Model model) {
         Book book = bookService.findByIdWithReviews(id);
         if (book == null) {
-            return "error/404"; // oppure una pagina custom di errore
+            return "error"; 
         }
         model.addAttribute("book", book);
         model.addAttribute("review", new Review());
