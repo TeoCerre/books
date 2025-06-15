@@ -1,0 +1,96 @@
+.author-detail {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px 30px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  font-family: 'Inter', sans-serif;
+  color: #3e3e3e;
+}
+
+.author-detail h1 {
+  text-align: center;
+  font-size: 2em;
+  color: #b08968;
+  margin-bottom: 30px;
+}
+
+.author-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+/* Autore a sinistra */
+.author-info {
+  flex: 1 1 280px;
+  max-width: 320px;
+  text-align: center;
+}
+
+.author-info img {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.author-info p {
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+/* Libri a destra */
+.author-books {
+  flex: 2 1 400px;
+}
+
+.author-books h2 {
+  font-size: 1.6em;
+  color: #b08968;
+  margin-bottom: 20px;
+}
+
+.books {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.book {
+  max-width: 140px;
+  text-align: center;
+}
+
+.book img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+}
+
+.book p {
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 0.95em;
+  color: #444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .author-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .author-books {
+    width: 100%;
+  }
+
+  .books {
+    justify-content: center;
+  }
+}

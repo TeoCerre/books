@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8" />
     <title th:text="${author.name + ' ' + author.surname}">Dettagli Autore</title>
@@ -19,30 +20,41 @@
 
     <main>
         <section class="author-detail">
-            <h1 th:text="${author.name + ' ' + author.surname}">Nome Cognome</h1>
-            <div class="author-info">
-                <img th:src="@{'/authors/' + ${author.id} + '/photo'}" th:alt="${author.name}" />
-                <p><strong>Nato il:</strong> <span th:text="${#temporals.format(author.birthDate, 'dd/MM/yyyy')}"></span></p>
-                <p th:if="${author.deathDate != null}"><strong>Deceduto il:</strong> <span th:text="${#temporals.format(author.deathDate, 'dd/MM/yyyy')}"></span></p>
-                <p><strong>Nazionalità:</strong> <span th:text="${author.nationality}"></span></p>
-            </div>
-        </section>
+            <div class="author-layout">
+                <!-- Autore a sinistra -->
+                <div class="author-info">
+                    <h1 th:text="${author.name + ' ' + author.surname}"
+                        style="text-align:left; margin-bottom:18px;">Nome Cognome</h1>
+                    <img th:src="@{'/authors/' + ${author.id} + '/photo'}" th:alt="${author.name}" />
+                    <p><strong>Nato il:</strong> <span
+                            th:text="${#temporals.format(author.birthDate, 'dd/MM/yyyy')}"></span></p>
+                    <p th:if="${author.deathDate != null}"><strong>Deceduto il:</strong>
+                        <span th:text="${#temporals.format(author.deathDate, 'dd/MM/yyyy')}"></span>
+                    </p>
+                    <p><strong>Nazionalità:</strong> <span th:text="${author.nationality}"></span></p>
+                </div>
 
-        <section class="author-books">
-            <h2>Libri scritti</h2>
-            <div class="books">
-                <div class="book" th:each="book : ${books}">
-                    <a th:href="@{'/books/' + ${book.id}}">
-                        <img th:src="@{'/books/' + ${book.id} + '/cover'}" th:alt="${book.title}" />
-                        <p th:text="${book.title}"></p>
-                    </a>
+                <!-- Libri a destra -->
+                <div class="author-books">
+                    <h2>Libri scritti</h2>
+                    <div class="books" th:if="${#lists.isEmpty(books) == false}">
+                        <div class="book" th:each="book : ${books}">
+                            <a th:href="@{/books/{id}(id=${book.id})}">
+                                <img th:src="@{/books/{id}/cover(id=${book.id})}" th:alt="${book.title}" />
+                                <p th:text="${book.title}">Titolo libro</p>
+                            </a>
+                        </div>
+                    </div>
+                    <p th:if="${#lists.isEmpty(books)}">Nessun libro disponibile.</p>
                 </div>
             </div>
         </section>
     </main>
 
+
     <footer>
         <p>&copy; 2025 SiwBooks. Tutti i diritti riservati.</p>
     </footer>
 </body>
+
 </html>
