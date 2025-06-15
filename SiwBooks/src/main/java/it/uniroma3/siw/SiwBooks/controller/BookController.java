@@ -4,20 +4,31 @@ import org.springframework.http.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import it.uniroma3.siw.SiwBooks.model.Book;
 import it.uniroma3.siw.SiwBooks.model.Review;
+import it.uniroma3.siw.SiwBooks.model.User;
 import it.uniroma3.siw.SiwBooks.service.BookService;
+import it.uniroma3.siw.SiwBooks.service.ReviewService;
+import it.uniroma3.siw.SiwBooks.service.UserService;
 
 @Controller
 public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping("/books/{id}/cover")
     public ResponseEntity<byte[]> getBookCover(@PathVariable Long id) {
@@ -48,14 +59,25 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}")
-    public String getBookDetails(@PathVariable Long id, Model model) {
-        Book book = bookService.findByIdWithReviews(id);
-        if (book == null) {
-            return "error"; 
-        }
-        model.addAttribute("book", book);
-        model.addAttribute("review", new Review());
-        return "bookDetails";
+public String getBookDetails(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    Book book = bookService.findByIdWithReviews(id);
+    if (book == null) {
+        return "error";
     }
+
+    model.addAttribute("book", book);
+    model.addAttribute("review", new Review());
+
+    boolean alreadyReviewed = false;
+    if (userDetails != null) {
+        User currentUser = userService.findByUsername(userDetails.getUsername());
+        alreadyReviewed = reviewService.hasUserReviewedBook(currentUser.getId(), book.getId());
+    }
+
+    model.addAttribute("alreadyReviewed", alreadyReviewed);
+
+    return "bookDetails";
+}
+
 
 }

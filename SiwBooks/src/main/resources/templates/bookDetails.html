@@ -47,10 +47,11 @@
                 </div>
             </div>
 
-            <div sec:authorize="isAuthenticated()" class="review-form-container">
+            <!-- Se l'utente è autenticato e NON ha ancora recensito -->
+            <div sec:authorize="isAuthenticated()" th:if="${!alreadyReviewed}" class="review-form-container">
                 <h3>Lascia una recensione</h3>
                 <form th:action="@{/books/{id}/review(id=${book.id})}" th:object="${review}" method="post"
-                    class="review-form">
+                      class="review-form">
                     <label for="title">Titolo</label>
                     <input type="text" id="title" th:field="*{title}" required />
 
@@ -63,10 +64,13 @@
                     <button type="submit">Invia recensione</button>
                 </form>
             </div>
+
+            <!-- Se l'utente ha già recensito -->
+            <div sec:authorize="isAuthenticated()" th:if="${alreadyReviewed}" class="review-form-container">
+                <p>✅ Hai già lasciato una recensione per questo libro.</p>
+            </div>
         </section>
     </main>
-
-
 
     <footer>
         <p>&copy; 2025 SiwBooks. Tutti i diritti riservati.</p>

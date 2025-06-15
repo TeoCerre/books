@@ -11,6 +11,10 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    public boolean hasUserReviewedBook(Long userId, Long bookId) {
+        return reviewRepository.existsByBookIdAndAuthorId(bookId, userId);
+    }
+
     public void save(Review review) {
         reviewRepository.save(review);
     }

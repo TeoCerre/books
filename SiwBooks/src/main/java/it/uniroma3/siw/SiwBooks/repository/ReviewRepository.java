@@ -9,4 +9,8 @@ import it.uniroma3.siw.SiwBooks.model.*;
 public interface ReviewRepository extends CrudRepository<Review, Long> {
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.book.id = :bookId")
     Double findAverageRatingByBookId(@Param("bookId") Long bookId);
+
+    @Query("SELECT COUNT(r) > 0 FROM Review r WHERE r.book.id = :bookId AND r.author.id = :userId")
+boolean existsByBookIdAndAuthorId(@Param("bookId") Long bookId, @Param("userId") Long userId);
+
 }
