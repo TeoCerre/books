@@ -12,7 +12,11 @@
     <header>
         <div class="logo">📚 SiwBooks</div>
         <nav>
-            <a href="/">Home</a>
+            <ul>
+                <li><a href="/">Catalogo</a></li>
+                <li><a href="/authors">Autori</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -47,8 +51,7 @@
                 </div>
             </div>
 
-            <!-- Se l'utente è autenticato e NON ha ancora recensito -->
-            <div sec:authorize="isAuthenticated()" th:if="${!alreadyReviewed}" class="review-form-container">
+            <div sec:authorize="isAuthenticated()" class="review-form-container">
                 <h3>Lascia una recensione</h3>
                 <form th:action="@{/books/{id}/review(id=${book.id})}" th:object="${review}" method="post"
                       class="review-form">
@@ -63,11 +66,6 @@
 
                     <button type="submit">Invia recensione</button>
                 </form>
-            </div>
-
-            <!-- Se l'utente ha già recensito -->
-            <div sec:authorize="isAuthenticated()" th:if="${alreadyReviewed}" class="review-form-container">
-                <p>✅ Hai già lasciato una recensione per questo libro.</p>
             </div>
         </section>
     </main>
