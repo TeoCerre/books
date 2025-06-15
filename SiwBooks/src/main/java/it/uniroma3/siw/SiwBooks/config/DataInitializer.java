@@ -1,6 +1,7 @@
 package it.uniroma3.siw.SiwBooks.config;
 
 import it.uniroma3.siw.SiwBooks.model.Book;
+import it.uniroma3.siw.SiwBooks.service.AuthorService;
 import it.uniroma3.siw.SiwBooks.service.BookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class DataInitializer {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private AuthorService authorService;
 
     @Bean
     CommandLineRunner loadImages() {
@@ -45,5 +49,6 @@ public class DataInitializer {
             }
         };
     }
+    
 }
 

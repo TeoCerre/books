@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${author.name + ' ' + author.surname}">Dettagli Autore</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/author-detail.css" />
+
+</head>
+
+<body>
+    <header>
+        <div class="logo">📚 SiwBooks</div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/authors">Tutti gli autori</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="author-detail">
+            <h1 th:text="${author.name + ' ' + author.surname}">Nome Cognome</h1>
+            <div class="author-info">
+                <img th:src="@{'/authors/' + ${author.id} + '/photo'}" th:alt="${author.name}" />
+                <p><strong>Nato il:</strong> <span th:text="${#temporals.format(author.birthDate, 'dd/MM/yyyy')}"></span></p>
+                <p th:if="${author.deathDate != null}"><strong>Deceduto il:</strong> <span th:text="${#temporals.format(author.deathDate, 'dd/MM/yyyy')}"></span></p>
+                <p><strong>Nazionalità:</strong> <span th:text="${author.nationality}"></span></p>
+            </div>
+        </section>
+
+        <section class="author-books">
+            <h2>Libri scritti</h2>
+            <div class="books">
+                <div class="book" th:each="book : ${books}">
+                    <a th:href="@{'/books/' + ${book.id}}">
+                        <img th:src="@{'/books/' + ${book.id} + '/cover'}" th:alt="${book.title}" />
+                        <p th:text="${book.title}"></p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SiwBooks. Tutti i diritti riservati.</p>
+    </footer>
+</body>
+</html>

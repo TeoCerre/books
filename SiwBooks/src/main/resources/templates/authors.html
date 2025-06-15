@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="it" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SiwBooks - Home</title>
+    <title>SiwBooks - Autori</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -26,29 +26,28 @@
     </header>
 
     <section class="hero">
-        <h1>Benvenuto su SiwBooks!</h1>
-        <p>Scopri, leggi e recensisci i tuoi libri preferiti.</p>
-        <button>Esplora ora</button>
+        <h1>Scopri gli autori di SiwBooks</h1>
+        <p>Esplora la vita e le opere dei tuoi scrittori preferiti.</p>
     </section>
 
     <main>
         <section class="shelf">
-            <h2>Libri disponibili</h2>
+            <h2>Autori presenti</h2>
             <div class="books">
-                <div class="book" th:each="libro : ${libri}">
-                    <a th:href="@{'/books/' + ${libro.id}}">
-                        <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
-                        <p th:text="${libro.title}"></p>
+                <div class="book" th:each="autore : ${autori}">
+                    <a th:href="@{'/authors/' + ${autore.id}}">
+                        <img th:src="@{'/authors/' + ${autore.id} + '/photo'}"
+                            th:alt="${autore.name + ' ' + autore.surname}" />
+                        <p th:text="${autore.name + ' ' + autore.surname}"></p>
                     </a>
-                    <p>Valutazione media: <span
-                            th:text="${#numbers.formatDecimal(averageRatings[libro.id], 1, 1)}"></span> / 5</p>
+
+                    <p th:text="'Nato il: ' + ${#temporals.format(autore.birthDate, 'dd/MM/yyyy')}"></p>
+                    <p th:if="${autore.deathDate != null}"
+                        th:text="'Deceduto il: ' + ${#temporals.format(autore.deathDate, 'dd/MM/yyyy')}"></p>
+                    <p th:text="'Nazionalità: ' + ${autore.nationality}"></p>
                 </div>
-
-
             </div>
         </section>
-
-
     </main>
 
     <footer>
