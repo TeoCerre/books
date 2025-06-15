@@ -1,6 +1,5 @@
-CRUCIALI: -aggiungere funzionalità admin
+CRUCIALI: -aggiungere funzionalità admin -> 
 DA FARE: -aggiungere più elementi pre-esistenti
-         -doppieRecensioni da fixare
 IN più: -ricerca libro 
         -ordina libri per recensioni
         -ordina autori per recensioni

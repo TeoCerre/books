@@ -1,4 +1,3 @@
-
 INSERT INTO author (name, surname, birth_date, nationality) VALUES
 ('Elena', 'Ferrante', '1943-10-05', 'Italiana'),
 ('Don', 'DeLillo', '1936-11-20', 'Americana'),
@@ -23,7 +22,7 @@ INSERT INTO book_authors (books_id, authors_id) VALUES
 
 
 INSERT INTO users (username, email, password, role) VALUES
-('admin', 'admin@example.com', '$2a$10$7qeqeXv5EIjQnG6Fq1uQyOnv1TTQ4W7PYB4Pz9/h8eC2Xplz06KCa', 'ADMIN');
+('admin', 'admin@example.com', '$2a$10$ucGnEQLK49WmoEEcJdLYt.CoktosKI7JeHD9iLdbu60Ix3ruIk7Sm', 'ADMIN');
 
 INSERT INTO review (title, text, rating, book_id, author_id) VALUES
 ('Bellissimo', 'Un romanzo davvero coinvolgente.', 5, 1, 1),
