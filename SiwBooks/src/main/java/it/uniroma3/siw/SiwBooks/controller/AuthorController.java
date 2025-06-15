@@ -13,12 +13,16 @@ import org.springframework.ui.Model;
 
 import it.uniroma3.siw.SiwBooks.model.Author;
 import it.uniroma3.siw.SiwBooks.repository.AuthorRepository;
+import it.uniroma3.siw.SiwBooks.service.AuthorService;
 
 @Controller
 public class AuthorController {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    @Autowired
+    private AuthorService authorService;
 
     @GetMapping("/authors")
     public String listAuthors(Model model) {
@@ -41,12 +45,15 @@ public class AuthorController {
 
     @GetMapping("/authors/{id}")
     public String authorDetails(@PathVariable Long id, Model model) {
-        Author author = authorRepository.findByIdWithBooks(id).orElse(null);
-        if (author == null) {
+        Author author;
+        try {
+            author = authorService.findByIdWithBooks(id);
+        } catch (Exception e) {
+            e.printStackTrace();
             return "error";
         }
         model.addAttribute("author", author);
-        model.addAttribute("books", author.getBooks());
+        model.addAttribute("books", author.getBooks() != null ? author.getBooks() : java.util.Collections.emptySet());
         return "authorDetails";
     }
 
