@@ -16,7 +16,12 @@
             <ul>
                 <li><a href="/">Catalogo</a></li>
                 <li><a href="/authors">Autori</a></li>
-                <li><a href="/login">Login</a></li>
+                <li sec:authorize="!isAuthenticated()"><a href="/login">Login</a></li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="logout-button">Logout</button>
+                    </form>
+                </li>
             </ul>
         </nav>
     </header>
@@ -36,15 +41,12 @@
                         <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
                         <p th:text="${libro.title}"></p>
                     </a>
-                    <p>Valutazione media: <span
-                            th:text="${#numbers.formatDecimal(averageRatings[libro.id], 1, 1)}"></span> / 5</p>
+                    <p>Valutazione media:
+                        <span th:text="${#numbers.formatDecimal(averageRatings[libro.id], 1, 1)}"></span> / 5
+                    </p>
                 </div>
-
-
             </div>
         </section>
-
-
     </main>
 
     <footer>

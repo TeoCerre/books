@@ -51,10 +51,11 @@
                 </div>
             </div>
 
-            <div sec:authorize="isAuthenticated()" class="review-form-container">
+            <div sec:authorize="isAuthenticated()" th:if="${!alreadyReviewed}" class="review-form-container">
                 <h3>Lascia una recensione</h3>
                 <form th:action="@{/books/{id}/review(id=${book.id})}" th:object="${review}" method="post"
-                      class="review-form">
+                    class="review-form" sec:authorize="isAuthenticated()">
+
                     <label for="title">Titolo</label>
                     <input type="text" id="title" th:field="*{title}" required />
 
@@ -66,6 +67,9 @@
 
                     <button type="submit">Invia recensione</button>
                 </form>
+            </div>
+            <div sec:authorize="isAuthenticated()" th:if="${alreadyReviewed}" class="review-form-container">
+                <p>✅ Hai già lasciato una recensione per questo libro.</p>
             </div>
         </section>
     </main>
