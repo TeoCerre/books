@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 
 import it.uniroma3.siw.SiwBooks.model.Author;
-import it.uniroma3.siw.SiwBooks.model.Book;
 import it.uniroma3.siw.SiwBooks.repository.AuthorRepository;
-import java.util.Set;
 
 @Controller
 public class AuthorController {
@@ -28,22 +26,6 @@ public class AuthorController {
         return "authors";
     }
 
-    @GetMapping("/authors/{id}")
-    public String getAuthorDetails(@PathVariable Long id, Model model) {
-        Author author = authorRepository.findById(id).orElse(null);
-        if (author == null) {
-            return "error";
-        }
-
-        // Recupera i libri dell'autore
-        Set<Book> libri = author.getBooks();
-
-        model.addAttribute("author", author);
-        model.addAttribute("books", libri);
-
-        return "authorDetails";
-    }
-
     @GetMapping("/authors/{id}/photo")
     @ResponseBody
     public ResponseEntity<byte[]> getAuthorPhoto(@PathVariable Long id) {
@@ -55,6 +37,17 @@ public class AuthorController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/authors/{id}")
+    public String authorDetails(@PathVariable Long id, Model model) {
+        Author author = authorRepository.findByIdWithBooks(id).orElse(null);
+        if (author == null) {
+            return "error";
+        }
+        model.addAttribute("author", author);
+        model.addAttribute("books", author.getBooks());
+        return "authorDetails";
     }
 
 }

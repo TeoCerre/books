@@ -17,6 +17,8 @@
     </header>
 
     <main>
+        <p sec:authorize="isAuthenticated()">Sei autenticato</p>
+        <p sec:authorize="isAnonymous()">Non sei autenticato</p>
         <section class="book-detail-container">
             <div class="book-info">
                 <h1 th:text="${book.title}">Titolo</h1>

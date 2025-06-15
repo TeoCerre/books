@@ -36,14 +36,11 @@
             <div class="books">
                 <div class="book" th:each="autore : ${autori}">
                     <a th:href="@{'/authors/' + ${autore.id}}">
-                        <img th:src="@{'/authors/' + ${autore.id} + '/photo'}"
-                            th:alt="${autore.name + ' ' + autore.surname}" />
+                        <img th:src="@{'/authors/' + ${autore.id} + '/photo'}" th:alt="${autore.name + ' ' + autore.surname}" />
                         <p th:text="${autore.name + ' ' + autore.surname}"></p>
                     </a>
-
                     <p th:text="'Nato il: ' + ${#temporals.format(autore.birthDate, 'dd/MM/yyyy')}"></p>
-                    <p th:if="${autore.deathDate != null}"
-                        th:text="'Deceduto il: ' + ${#temporals.format(autore.deathDate, 'dd/MM/yyyy')}"></p>
+                    <p th:if="${autore.deathDate != null}" th:text="'Deceduto il: ' + ${#temporals.format(autore.deathDate, 'dd/MM/yyyy')}"></p>
                     <p th:text="'Nazionalità: ' + ${autore.nationality}"></p>
                 </div>
             </div>
