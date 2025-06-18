@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>Nuovo Autore</title>
-    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/form.css" />
 </head>
-
 <body>
     <header>
         <div>
@@ -16,14 +15,50 @@
             <a class="logout-button" href="/logout">Logout</a>
         </div>
     </header>
+
     <main>
         <h1>Aggiungi un nuovo autore</h1>
-        <form th:action="@{/admin/authors}" th:object="${author}" method="post">
-            <label>Nome: <input type="text" th:field="*{name}" required /></label><br />
-            <label>Biografia: <textarea th:field="*{biography}" required></textarea></label><br />
+
+        <form th:action="@{/admin/autori}" th:object="${author}" method="post" enctype="multipart/form-data">
+            <label>Nome:
+                <input type="text" th:field="*{name}" required />
+            </label><br/>
+
+            <label>Cognome:
+                <input type="text" th:field="*{surname}" required />
+            </label><br/>
+
+            <label>Data di nascita:
+                <input type="date" th:field="*{birthDate}" required />
+            </label><br/>
+
+            <label>Data di morte:
+                <input type="date" th:field="*{deathDate}" />
+            </label><br/>
+
+            <label>Nazionalità:
+                <input type="text" th:field="*{nationality}" required />
+            </label><br/>
+
+            <label>Carica foto:
+                <input type="file" name="photoFile" accept="image/*" required />
+            </label><br/>
+
+            <label>Libri (seleziona):
+                <div id="book-checkboxes">
+                    <th:block th:each="book : ${books}">
+                        <label>
+                            <input type="checkbox" name="bookIds"
+                                   th:value="${book.id}"
+                                   th:checked="${#lists.contains(author.books, book)}" />
+                            <span th:text="${book.title}"></span>
+                        </label><br/>
+                    </th:block>
+                </div>
+            </label><br/>
+
             <button type="submit">Salva</button>
         </form>
     </main>
 </body>
-
 </html>

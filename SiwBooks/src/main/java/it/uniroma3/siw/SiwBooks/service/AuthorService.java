@@ -22,6 +22,7 @@ public class AuthorService {
         return authorRepository.findByNameAndSurname(name, surname);
     }
 
+    @Transactional
     public Author save(Author author) {
         return authorRepository.save(author);
     }

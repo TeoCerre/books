@@ -1,7 +1,9 @@
 package it.uniroma3.siw.SiwBooks.controller;
 
+import java.beans.PropertyEditorSupport;
 import java.io.IOException;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,7 +11,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,7 +73,10 @@ public class AdminController {
 
     @GetMapping("/authors/new")
     public String newAuthor(Model model) {
-        model.addAttribute("author", new Author());
+        Author author = new Author();
+        author.setBooks(new HashSet<>()); // ✅ Inizializzazione esplicita
+        model.addAttribute("author", author);
+        model.addAttribute("books", bookService.findAll());
         return "admin/newAuthor";
     }
 
@@ -120,6 +127,58 @@ public class AdminController {
     public String deleteBook(@PathVariable Long id) {
         bookService.deleteById(id);
         return "redirect:/admin/books";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                if (text == null || text.trim().isEmpty()) {
+                    setValue(null); // stringa vuota diventa null
+                } else {
+                    setValue(LocalDate.parse(text, DateTimeFormatter.ISO_LOCAL_DATE));
+                }
+            }
+        });
+    }
+
+    @PostMapping("/autori")
+    public String saveAuthor(@ModelAttribute("author") Author author,
+            @RequestParam(value = "bookIds", required = false) List<Long> bookIds,
+            @RequestParam("photoFile") MultipartFile photoFile,
+            Model model) {
+
+        // Caricamento foto
+        if (!photoFile.isEmpty()) {
+            try {
+                author.setPhoto(photoFile.getBytes());
+            } catch (IOException e) {
+                model.addAttribute("errore", "Errore nel caricamento della foto.");
+                model.addAttribute("books", bookService.findAll());
+                return "admin/newAuthor";
+            }
+        }
+
+        // Primo salvataggio per ottenere ID
+        authorService.save(author);
+
+        // Se ci sono libri selezionati, crea la relazione
+        if (bookIds != null && !bookIds.isEmpty()) {
+            Set<Book> books = bookIds.stream()
+                    .map(bookService::findById)
+                    .filter(b -> b != null)
+                    .collect(Collectors.toSet());
+
+            for (Book book : books) {
+                book.getAuthors().add(author); // bidirezionale
+            }
+
+            author.setBooks(books);
+            authorService.save(author); // risalva con i libri
+        }
+
+        return "redirect:/admin/autori";
     }
 
     @GetMapping("/reviews/delete")
