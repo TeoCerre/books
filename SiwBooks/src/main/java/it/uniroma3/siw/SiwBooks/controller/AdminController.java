@@ -1,11 +1,22 @@
 package it.uniroma3.siw.SiwBooks.controller;
 
+import java.io.IOException;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
 
 import it.uniroma3.siw.SiwBooks.model.Author;
@@ -34,8 +45,12 @@ public class AdminController {
 
     @GetMapping("/books/new")
     public String newBook(Model model) {
-        model.addAttribute("book", new Book());
-        model.addAttribute("authors", authorService.findAll());
+        List<Author> authors = authorService.findAll();
+        System.out.println("Autori trovati: " + authors.size()); // DEBUG
+        Book book = new Book();
+        book.setAuthors(new HashSet<>());
+        model.addAttribute("book", book);
+        model.addAttribute("authors", authors);
         return "admin/newBook";
     }
 
@@ -43,6 +58,13 @@ public class AdminController {
     public String adminBooks(Model model) {
         model.addAttribute("libri", bookService.findAll());
         return "admin/bookList";
+    }
+
+    @GetMapping("/books/{id}/cover")
+    @ResponseBody
+    public byte[] getBookCover(@PathVariable Long id) {
+        Book book = bookService.findById(id);
+        return book.getCoverImage();
     }
 
     @GetMapping("/authors/new")
@@ -55,6 +77,37 @@ public class AdminController {
     public String adminAuthors(Model model) {
         model.addAttribute("autori", authorService.findAll());
         return "admin/authorList";
+    }
+
+    @PostMapping("/books")
+    public String saveBook(@ModelAttribute("book") Book book,
+            @RequestParam("authors") List<Long> authorIds,
+            @RequestParam("coverFile") MultipartFile coverFile,
+            Model model) {
+        // Gestione immagine come già fatto
+        if (!coverFile.isEmpty()) {
+            try {
+                byte[] imageBytes = coverFile.getBytes();
+                book.setCoverImage(imageBytes);
+            } catch (IOException e) {
+                model.addAttribute("errore", "Errore nel caricamento della copertina.");
+                model.addAttribute("authors", authorService.findAll());
+                return "admin/newBook";
+            }
+        }
+
+        // Recupera gli autori completi dal DB
+        Set<Author> fullAuthors = authorIds.stream()
+                .map(id -> authorService.findById(id))
+                .filter(a -> a != null)
+                .collect(Collectors.toSet());
+
+        book.setAuthors(fullAuthors);
+
+        // Salva il libro
+        bookService.save(book);
+
+        return "redirect:/admin/books";
     }
 
     @PostMapping("/autori/delete/{id}")

@@ -3,7 +3,8 @@
 
 <head>
     <title>Nuovo Libro</title>
-    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/form.css" />
 </head>
 
 <body>
@@ -13,20 +14,48 @@
         </div>
         <div th:if="${userDetails}">
             <span th:text="${userDetails.username}"></span>
-            <a class="logout-button" href="/logout">Logout</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-button">Logout</button>
+            </form>
         </div>
     </header>
+
     <main>
-        <h1>Aggiungi un nuovo libro</h1>
-        <form th:action="@{/admin/books}" th:object="${book}" method="post">
-            <label>Titolo: <input type="text" th:field="*{title}" required /></label><br />
-            <label>Descrizione: <textarea th:field="*{description}" required></textarea></label><br />
-            <label>Autore: <select th:field="*{author.id}" required>
-                    <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
-                </select></label><br />
-            <button type="submit">Salva</button>
+        <h1 class="form-title">Aggiungi un nuovo libro</h1>
+
+        <form th:action="@{/admin/books}" th:object="${book}" method="post" enctype="multipart/form-data"
+            class="book-form">
+
+            <label class="form-label">Titolo:
+                <input type="text" th:field="*{title}" required class="form-input" />
+            </label>
+
+            <label class="form-label">Anno:
+                <input type="number" th:field="*{year}" min="1000" max="9999" required class="form-input" />
+            </label>
+
+            <label class="form-label">Autori:</label>
+            <div id="checkboxes">
+                <th:block th:each="author : ${authors}">
+                    <label>
+                        <input type="checkbox" th:field="*{authors}" th:value="${author.id}"
+                            th:checked="${#lists.contains(book.authors, author)}" />
+                        <span th:text="${author.name + ' ' + author.surname}"></span>
+                    </label>
+                </th:block>
+            </div>
+
+
+
+            <label class="form-label">Carica copertina:
+                <input type="file" name="coverFile" accept="image/*" required />
+            </label>
+
+            <button type="submit" class="form-submit">Salva</button>
         </form>
+
     </main>
+    <script src="/js/formScript.js"></script>
 </body>
 
 </html>
