@@ -3,6 +3,8 @@ package it.uniroma3.siw.SiwBooks.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
@@ -23,8 +25,8 @@ public class AdminController {
     private AuthorService authorService;
 
     @Autowired
-    private ReviewService reviewService; 
-    
+    private ReviewService reviewService;
+
     @GetMapping("/home")
     public String adminHome() {
         return "admin/adminHome";
@@ -53,6 +55,12 @@ public class AdminController {
     public String adminAuthors(Model model) {
         model.addAttribute("autori", authorService.findAll());
         return "admin/authorList";
+    }
+
+    @PostMapping("/autori/delete/{id}")
+    public String deleteAuthor(@PathVariable Long id) {
+        authorService.deleteById(id);
+        return "redirect:/admin/autori";
     }
 
     @GetMapping("/reviews/delete")

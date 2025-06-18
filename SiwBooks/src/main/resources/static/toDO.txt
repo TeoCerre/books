@@ -5,6 +5,8 @@ Gli amministratori possono anche cancellare le recensioni (ma non possono modifi
 ->controllo che gli altri non vadano in admin
 ->errore reindirizzamento admin (contenuto pagine?? basati sulle pagine normali)
 
+I LIBRI SI DEVONO VEDERE ANCHE SE CANCELLO GLI AUTORI?
+
 DA FARE: -aggiungere più elementi pre-esistenti
 IN più: -ricerca libro 
         -ordina libri per recensioni
