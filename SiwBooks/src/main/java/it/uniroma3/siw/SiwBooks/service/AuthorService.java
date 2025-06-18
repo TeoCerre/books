@@ -8,6 +8,10 @@ import it.uniroma3.siw.SiwBooks.repository.AuthorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service
 public class AuthorService {
 
@@ -18,8 +22,17 @@ public class AuthorService {
         return authorRepository.findByNameAndSurname(name, surname);
     }
 
-    public void save(Author author) {
-        authorRepository.save(author);
+    public Author save(Author author) {
+        return authorRepository.save(author);
+    }
+
+    public List<Author> findAll() {
+        return StreamSupport.stream(authorRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteById(Long id) {
+        authorRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true)

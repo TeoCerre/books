@@ -1,6 +1,9 @@
 CRUCIALI: -aggiungere funzionalità admin -> 
 Gli amministratori possono aggiungere, modificare, cancellare libri e autori. 
 Gli amministratori possono anche cancellare le recensioni (ma non possono modificarle)
+->admin non deve tornare alla vera home
+->controllo che gli altri non vadano in admin
+->errore reindirizzamento admin (contenuto pagine?? basati sulle pagine normali)
 
 DA FARE: -aggiungere più elementi pre-esistenti
 IN più: -ricerca libro 

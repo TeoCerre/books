@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestione Libri</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+<main>
+    <h1>Elenco Libri</h1>
+    <a href="/admin/books/new">Aggiungi Libro</a>
+    <ul>
+        <li th:each="book : ${books}">
+            <span th:text="${book.title}"></span> - 
+            <a th:href="@{'/admin/books/edit/' + ${book.id}}">Modifica</a> |
+            <a th:href="@{'/admin/books/delete/' + ${book.id}}" onclick="return confirm('Confermi la cancellazione?')">Cancella</a>
+        </li>
+    </ul>
+</main>
+</body>
+</html>

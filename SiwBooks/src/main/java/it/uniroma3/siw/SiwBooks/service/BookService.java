@@ -36,8 +36,16 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
-    public void save(Book book) {
-        bookRepository.save(book);
+    public Book save(Book book) {
+        return bookRepository.save(book);
+    }
+
+    public List<Book> findAll() {
+        return bookRepository.findAll();
+    }
+
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
     }
 
     public void delete(Book book) {

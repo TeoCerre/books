@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Nuovo Libro</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+    <header>
+        <div>
+            <span class="logo">SIWBooks Admin</span>
+        </div>
+        <div th:if="${userDetails}">
+            <span th:text="${userDetails.username}"></span>
+            <a class="logout-button" href="/logout">Logout</a>
+        </div>
+    </header>
+    <main>
+        <h1>Aggiungi un nuovo libro</h1>
+        <form th:action="@{/admin/books}" th:object="${book}" method="post">
+            <label>Titolo: <input type="text" th:field="*{title}" required /></label><br />
+            <label>Descrizione: <textarea th:field="*{description}" required></textarea></label><br />
+            <label>Autore: <select th:field="*{author.id}" required>
+                    <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
+                </select></label><br />
+            <button type="submit">Salva</button>
+        </form>
+    </main>
+</body>
+
+</html>

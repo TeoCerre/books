@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Elimina Recensioni</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+    <header>
+        <div>
+            <span class="logo">SIWBooks Admin</span>
+        </div>
+        <div th:if="${userDetails}">
+            <span th:text="${userDetails.username}"></span>
+            <a class="logout-button" href="/logout">Logout</a>
+        </div>
+    </header>
+    <main>
+        <h1>Recensioni</h1>
+        <ul>
+            <li th:each="review : ${reviews}">
+                <p><strong th:text="${review.user.username}"></strong>: <span th:text="${review.content}"></span></p>
+                <form th:action="@{'/admin/reviews/delete/' + ${review.id}}" method="post"
+                    onsubmit="return confirm('Eliminare la recensione?')">
+                    <button type="submit">Cancella</button>
+                </form>
+            </li>
+        </ul>
+    </main>
+</body>
+
+</html>

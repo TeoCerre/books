@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Nuovo Autore</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+    <header>
+        <div>
+            <span class="logo">SIWBooks Admin</span>
+        </div>
+        <div th:if="${userDetails}">
+            <span th:text="${userDetails.username}"></span>
+            <a class="logout-button" href="/logout">Logout</a>
+        </div>
+    </header>
+    <main>
+        <h1>Aggiungi un nuovo autore</h1>
+        <form th:action="@{/admin/authors}" th:object="${author}" method="post">
+            <label>Nome: <input type="text" th:field="*{name}" required /></label><br />
+            <label>Biografia: <textarea th:field="*{biography}" required></textarea></label><br />
+            <button type="submit">Salva</button>
+        </form>
+    </main>
+</body>
+
+</html>
