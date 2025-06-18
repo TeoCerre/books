@@ -41,7 +41,7 @@ public class AdminController {
 
     @GetMapping("/books")
     public String adminBooks(Model model) {
-        model.addAttribute("books", bookService.findAll());
+        model.addAttribute("libri", bookService.findAll());
         return "admin/bookList";
     }
 
@@ -61,6 +61,12 @@ public class AdminController {
     public String deleteAuthor(@PathVariable Long id) {
         authorService.deleteById(id);
         return "redirect:/admin/autori";
+    }
+
+    @PostMapping("/books/delete/{id}")
+    public String deleteBook(@PathVariable Long id) {
+        bookService.deleteById(id);
+        return "redirect:/admin/books";
     }
 
     @GetMapping("/reviews/delete")

@@ -1,20 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="it" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <title>Gestione Libri</title>
-    <link rel="stylesheet" href="/css/stile.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiwBooks - Gestione Libri</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
-<main>
-    <h1>Elenco Libri</h1>
-    <a href="/admin/books/new">Aggiungi Libro</a>
-    <ul>
-        <li th:each="book : ${books}">
-            <span th:text="${book.title}"></span> - 
-            <a th:href="@{'/admin/books/edit/' + ${book.id}}">Modifica</a> |
-            <a th:href="@{'/admin/books/delete/' + ${book.id}}" onclick="return confirm('Confermi la cancellazione?')">Cancella</a>
-        </li>
-    </ul>
-</main>
+    <header>
+        <div class="logo">📚 SiwBooks Admin</div>
+        <nav>
+            <ul>
+                <li><a href="/">Catalogo</a></li>
+                <li><a href="/authors">Autori</a></li>
+                <li sec:authorize="!isAuthenticated()"><a href="/login">Login</a></li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="logout-button">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Gestione Libri</h1>
+        <p>Visualizza, modifica o elimina i libri presenti nel sistema.</p>
+    </section>
+
+    <main>
+        <section class="shelf">
+            <h2>Libri disponibili</h2>
+            <div class="books">
+                <div class="book" th:each="libro : ${libri}">
+                    <a th:href="@{'/books/' + ${libro.id}}">
+                        <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
+                        <p th:text="${libro.title}"></p>
+                    </a>
+                    <form th:action="@{'/admin/books/delete/' + ${libro.id}}" method="post"
+                        onsubmit="return confirm('Confermi la cancellazione del libro?');">
+                        <button type="submit" class="delete-button">Cancella</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SiwBooks. Tutti i diritti riservati.</p>
+    </footer>
 </body>
+
 </html>
