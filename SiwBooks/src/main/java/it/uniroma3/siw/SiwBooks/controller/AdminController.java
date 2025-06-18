@@ -187,4 +187,11 @@ public class AdminController {
         model.addAttribute("reviews", reviewService.findAll());
         return "admin/reviewDelete";
     }
+
+    @PostMapping("/reviews/delete/{id}")
+    public String deleteReview(@PathVariable Long id) {
+        reviewService.deleteById(id);
+        return "redirect:/admin/reviews/delete";
+    }
+
 }

@@ -1,32 +1,37 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Elimina Recensioni</title>
-    <link rel="stylesheet" href="/css/stile.css" />
+    <title>Gestione Recensioni</title>
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
-
 <body>
-    <header>
-        <div>
-            <span class="logo">SIWBooks Admin</span>
-        </div>
-        <div th:if="${userDetails}">
-            <span th:text="${userDetails.username}"></span>
-            <a class="logout-button" href="/logout">Logout</a>
-        </div>
-    </header>
-    <main>
-        <h1>Recensioni</h1>
-        <ul>
-            <li th:each="review : ${reviews}">
-                <p><strong th:text="${review.user.username}"></strong>: <span th:text="${review.content}"></span></p>
-                <form th:action="@{'/admin/reviews/delete/' + ${review.id}}" method="post"
-                    onsubmit="return confirm('Eliminare la recensione?')">
-                    <button type="submit">Cancella</button>
-                </form>
-            </li>
-        </ul>
-    </main>
-</body>
+<header>
+    <div>
+        <span class="logo">SIWBooks Admin</span>
+    </div>
+    <div th:if="${userDetails}">
+        <span th:text="${userDetails.username}"></span>
+        <a class="logout-button" href="/logout">Logout</a>
+    </div>
+</header>
 
+<main>
+    <h1>Tutte le Recensioni</h1>
+    <ul>
+        <li th:each="review : ${reviews}">
+            <div class="review-item">
+                <p><strong th:text="${review.author.username}">Autore</strong></p>
+                <p><strong>Titolo:</strong> <span th:text="${review.title}">Titolo</span></p>
+                <p><strong>Valutazione:</strong> <span th:text="${review.rating} + '/5'">Valutazione</span></p>
+                <p><strong>Testo:</strong> <span th:text="${review.text}">Testo</span></p>
+                <form th:action="@{'/admin/reviews/delete/' + ${review.id}}" method="post"
+                      onsubmit="return confirm('Sei sicuro di voler eliminare questa recensione?')">
+                    <button type="submit">Elimina</button>
+                </form>
+            </div>
+        </li>
+    </ul>
+</main>
+
+</body>
 </html>
