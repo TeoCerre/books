@@ -11,19 +11,17 @@
 
 <body>
     <header>
-        <div class="logo">📚 SiwBooks Admin</div>
-        <nav>
-            <ul>
-                <li><a href="/">Catalogo</a></li>
-                <li><a href="/authors">Autori</a></li>
-                <li sec:authorize="!isAuthenticated()"><a href="/login">Login</a></li>
-                <li sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post">
-                        <button type="submit" class="logout-button">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </nav>
+        <div class="header-left">
+            <span class="logo">SIWBooks Admin</span>
+        </div>
+        <div class="header-right">
+            <a href="/admin/home" class="admin-home-button">Home Admin</a>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post" style="margin:0;">
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            </li>
+        </div>
     </header>
 
     <section class="hero">

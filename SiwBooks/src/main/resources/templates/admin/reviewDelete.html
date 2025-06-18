@@ -1,37 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Gestione Recensioni</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/book-detail.css" />
 </head>
+
 <body>
-<header>
-    <div>
-        <span class="logo">SIWBooks Admin</span>
-    </div>
-    <div th:if="${userDetails}">
-        <span th:text="${userDetails.username}"></span>
-        <a class="logout-button" href="/logout">Logout</a>
-    </div>
-</header>
-
-<main>
-    <h1>Tutte le Recensioni</h1>
-    <ul>
-        <li th:each="review : ${reviews}">
-            <div class="review-item">
-                <p><strong th:text="${review.author.username}">Autore</strong></p>
-                <p><strong>Titolo:</strong> <span th:text="${review.title}">Titolo</span></p>
-                <p><strong>Valutazione:</strong> <span th:text="${review.rating} + '/5'">Valutazione</span></p>
-                <p><strong>Testo:</strong> <span th:text="${review.text}">Testo</span></p>
-                <form th:action="@{'/admin/reviews/delete/' + ${review.id}}" method="post"
-                      onsubmit="return confirm('Sei sicuro di voler eliminare questa recensione?')">
-                    <button type="submit">Elimina</button>
+    <header>
+        <div class="header-left">
+            <span class="logo">SIWBooks Admin</span>
+        </div>
+        <div class="header-right">
+            <a href="/admin/home" class="admin-home-button">Home Admin</a>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post" style="margin:0;">
+                    <button type="submit" class="logout-button">Logout</button>
                 </form>
-            </div>
-        </li>
-    </ul>
-</main>
+            </li>
+        </div>
+    </header>
 
+    <main>
+        <section class="book-detail-container">
+            <div class="book-info">
+                <h1>Tutte le Recensioni</h1>
+
+                <ul class="review-list">
+                    <li th:each="review : ${reviews}" class="review-item">
+
+                        <!-- Titolo del libro -->
+                        <h3 class="review-book-title" th:text="${review.book.title}">Titolo libro</h3>
+
+                        <!-- Contenuto recensione -->
+                        <strong th:text="${review.title}">Titolo recensione</strong><br />
+                        <span th:text="'Valutazione: ' + ${review.rating} + '/5'">Valutazione</span><br />
+                        <p th:text="${review.text}">Testo recensione</p>
+                        <em th:text="${review.author.username}">Autore recensione</em>
+
+                        <form th:action="@{'/admin/reviews/delete/' + ${review.id}}" method="post"
+                            onsubmit="return confirm('Sei sicuro di voler eliminare questa recensione?')">
+                            <button type="submit" class="delete-button review-delete-button">Elimina</button>
+                        </form>
+                    </li>
+                </ul>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SIWBooks Admin. Tutti i diritti riservati.</p>
+    </footer>
 </body>
+
 </html>

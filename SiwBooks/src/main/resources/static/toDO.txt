@@ -9,7 +9,6 @@ DA FARE:-risolvi nuovo autore
         -modifica
         -admin non deve tornare alla vera home
         -controllo che gli altri non vadano in admin
-        -errore reindirizzamento admin (contenuto pagine?? basati sulle pagine normali)
         -aggiungere più elementi pre-esistenti
 IN più: -ricerca libro 
         -ordina libri per recensioni

@@ -1,64 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Nuovo Autore</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/form.css" />
 </head>
+
 <body>
     <header>
-        <div>
+        <div class="header-left">
             <span class="logo">SIWBooks Admin</span>
         </div>
-        <div th:if="${userDetails}">
-            <span th:text="${userDetails.username}"></span>
-            <a class="logout-button" href="/logout">Logout</a>
+        <div class="header-right">
+            <a href="/admin/home" class="admin-home-button">Home Admin</a>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post" style="margin:0;">
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            </li>
         </div>
     </header>
 
     <main>
-        <h1>Aggiungi un nuovo autore</h1>
+        <h1 class="form-title">Aggiungi un nuovo autore</h1>
 
-        <form th:action="@{/admin/autori}" th:object="${author}" method="post" enctype="multipart/form-data">
-            <label>Nome:
-                <input type="text" th:field="*{name}" required />
-            </label><br/>
+        <form class="book-form" th:action="@{/admin/autori}" th:object="${author}" method="post"
+            enctype="multipart/form-data">
+            <label class="form-label">Nome:
+                <input type="text" class="form-input" th:field="*{name}" required />
+            </label>
 
-            <label>Cognome:
-                <input type="text" th:field="*{surname}" required />
-            </label><br/>
+            <label class="form-label">Cognome:
+                <input type="text" class="form-input" th:field="*{surname}" required />
+            </label>
 
-            <label>Data di nascita:
-                <input type="date" th:field="*{birthDate}" required />
-            </label><br/>
+            <label class="form-label">Data di nascita:
+                <input type="date" class="form-input" th:field="*{birthDate}" required />
+            </label>
 
-            <label>Data di morte:
-                <input type="date" th:field="*{deathDate}" />
-            </label><br/>
+            <label class="form-label">Data di morte:
+                <input type="date" class="form-input" th:field="*{deathDate}" />
+            </label>
 
-            <label>Nazionalità:
-                <input type="text" th:field="*{nationality}" required />
-            </label><br/>
+            <label class="form-label">Nazionalità:
+                <input type="text" class="form-input" th:field="*{nationality}" required />
+            </label>
 
-            <label>Carica foto:
-                <input type="file" name="photoFile" accept="image/*" required />
-            </label><br/>
+            <label class="form-label">Carica foto:
+                <input type="file" class="form-input" name="photoFile" accept="image/*" required />
+            </label>
 
-            <label>Libri (seleziona):
-                <div id="book-checkboxes">
-                    <th:block th:each="book : ${books}">
-                        <label>
-                            <input type="checkbox" name="bookIds"
-                                   th:value="${book.id}"
-                                   th:checked="${#lists.contains(author.books, book)}" />
-                            <span th:text="${book.title}"></span>
-                        </label><br/>
-                    </th:block>
-                </div>
-            </label><br/>
+            <label class="form-label">Libri (seleziona):</label>
+            <div id="checkboxes">
+                <th:block th:each="book : ${books}">
+                    <label>
+                        <input type="checkbox" name="bookIds" th:value="${book.id}"
+                            th:checked="${#lists.contains(author.books, book)}" />
+                        <span th:text="${book.title}"></span>
+                    </label>
+                </th:block>
+            </div>
 
-            <button type="submit">Salva</button>
+            <button class="form-submit" type="submit">Salva</button>
         </form>
     </main>
 </body>
+
 </html>
