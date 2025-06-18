@@ -23,6 +23,12 @@ public class AuthorService {
     }
 
     @Transactional(readOnly = true)
+    public Author findById(Long id) {
+        return authorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Author not found"));
+    }
+
+    @Transactional(readOnly = true)
     public Author findByIdWithBooks(Long id) {
         return authorRepository.findByIdWithBooks(id)
                 .orElseThrow(() -> new EntityNotFoundException("Author not found"));

@@ -15,24 +15,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/home", "/css/**", "/js/**", "/images/**", "/favicon.ico", "/register", "/books/*/cover",
-                "/authors/*/photo", "/books/*", "/authors","/authors/**", "/login", "/authorDetails.html").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            );
-            // .csrf(csrf -> csrf.disable());
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/home", "/css/**", "/js/**", "/images/**", "/favicon.ico", "/register",
+                                "/books/*/cover",
+                                "/authors/*/photo", "/books/*", "/authors", "/authors/**", "/login",
+                                "/authorDetails.html")
+                        .permitAll()
+                        .requestMatchers("/admin/**", "/admin/rest/**").hasRole("ADMIN")
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/default", true)
+                        .permitAll())
+
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll());
+        // .csrf(csrf -> csrf.disable());
 
         return http.build();
     }

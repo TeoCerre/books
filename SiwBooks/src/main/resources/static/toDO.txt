@@ -1,4 +1,7 @@
 CRUCIALI: -aggiungere funzionalità admin -> 
+Gli amministratori possono aggiungere, modificare, cancellare libri e autori. 
+Gli amministratori possono anche cancellare le recensioni (ma non possono modificarle)
+
 DA FARE: -aggiungere più elementi pre-esistenti
 IN più: -ricerca libro 
         -ordina libri per recensioni

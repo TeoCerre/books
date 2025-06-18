@@ -40,6 +40,10 @@ public class BookService {
         bookRepository.save(book);
     }
 
+    public void delete(Book book) {
+        this.bookRepository.delete(book);
+    }
+
     @Transactional(readOnly = true)
     public Book findByIdWithReviews(Long id) {
         return bookRepository.findByIdWithAllDetails(id)

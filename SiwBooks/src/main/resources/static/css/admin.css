@@ -1,0 +1,24 @@
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.admin-button {
+    padding: 12px 25px;
+    background-color: #d4a373;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1em;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-block;
+}
+
+.admin-button:hover {
+    background-color: #c58a54;
+    transform: translateY(-2px);
+}

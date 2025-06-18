@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Homepage</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+    <header>
+        <div>
+            <span class="logo">SIWBooks Admin</span>
+        </div>
+        <div th:if="${userDetails}">
+            <span th:text="${userDetails.username}"></span>
+            <a class="logout-button" href="/logout">Logout</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Benvenuto Amministratore!</h1>
+            <p>Gestisci il contenuto della piattaforma.</p>
+        </section>
+
+        <section class="shelf">
+            <h2>Gestione Libri</h2>
+            <div class="admin-actions">
+                <a href="/admin/books/new" class="admin-button">Aggiungi Libro</a>
+                <a href="/admin/books" class="admin-button">Modifica / Elimina Libri</a>
+            </div>
+        </section>
+
+        <section class="shelf">
+            <h2>Gestione Autori</h2>
+            <div class="admin-actions">
+                <a href="/admin/authors/new" class="admin-button">Aggiungi Autore</a>
+                <a href="/admin/authors" class="admin-button">Modifica / Elimina Autori</a>
+            </div>
+        </section>
+
+        <section class="shelf">
+            <h2>Gestione Recensioni</h2>
+            <div class="admin-actions">
+                <a href="/admin/reviews/delete" class="admin-button">Cancella Recensioni</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 SIWBooks. Tutti i diritti riservati.
+    </footer>
+</body>
+</html>
