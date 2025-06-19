@@ -119,7 +119,16 @@ public class AdminController {
 
     @PostMapping("/autori/delete/{id}")
     public String deleteAuthor(@PathVariable Long id) {
-        authorService.deleteById(id);
+        Author author = authorService.findByIdWithBooks(id);
+
+        // Scollega l'autore da tutti i libri
+        if (author.getBooks() != null) {
+            for (Book book : author.getBooks()) {
+                book.getAuthors().remove(author);
+            }
+        }
+
+        authorService.deleteById(id); // Ora si può eliminare senza problemi
         return "redirect:/admin/autori";
     }
 

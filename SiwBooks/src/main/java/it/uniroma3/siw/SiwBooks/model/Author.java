@@ -29,7 +29,7 @@ public class Author {
     @Lob
     private byte[] photo;
 
-    @ManyToMany(mappedBy = "authors", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
 
     public Long getId() {
