@@ -25,6 +25,14 @@ header {
     color: #d4a373;
 }
 
+.logo a {
+    color: inherit;
+    text-decoration: none;
+    font: inherit;
+    cursor: pointer;
+    display: inline-block;
+}
+
 nav ul {
     list-style: none;
     display: flex;
@@ -127,8 +135,9 @@ main {
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.book form {
-    margin-top: 10px;
+.book:hover {
+    box-shadow: 0 4px 16px rgba(176, 137, 104, 0.18);
+    transform: translateY(-2px) scale(1.03);
 }
 
 .book form {

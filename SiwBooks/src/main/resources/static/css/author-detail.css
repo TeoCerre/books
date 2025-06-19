@@ -59,11 +59,23 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
+  margin-bottom: 0;
 }
 
 .book {
   max-width: 140px;
   text-align: center;
+  background: #f5ecd9;
+  border-radius: 12px;
+  padding: 12px 8px 8px 8px;
+  box-shadow: 0 2px 8px rgba(176,137,104,0.07);
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+.book:hover {
+  box-shadow: 0 4px 16px rgba(176,137,104,0.18);
+  transform: translateY(-2px) scale(1.03);
 }
 
 .book img {

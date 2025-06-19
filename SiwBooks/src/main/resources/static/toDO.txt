@@ -1,14 +1,8 @@
-CRUCIALI: 
-Gli amministratori possono aggiungere, modificare, cancellare libri e autori. 
-Gli amministratori possono anche cancellare le recensioni (ma non possono modificarle)
-
-
-
-DA FARE: - mantenere i libri se cancello gli autori
+DA FARE:
+        - mantenere i libri se cancello gli autori
         -admin non deve tornare alla vera home (ci passsa solo se clicca un libro/autore)
-        -sistema bottone logout
         -controllo che gli altri non vadano in admin -> gli da errore (mettiamo pagina senza permesso)
-        -aggiungere più elementi pre-esistenti
+        -aggiungere più elementi pre-esistenti (soprattutto più foto dei libri)
 IN più: -ricerca libro 
         -ordina libri per recensioni
         -ordina autori per recensioni
