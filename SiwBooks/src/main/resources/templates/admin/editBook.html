@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Modifica Libro</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/form.css" />
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <span class="logo">SIWBooks Admin</span>
+        </div>
+        <div class="header-right">
+            <a href="/admin/home" class="admin-home-button">Home Admin</a>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post" style="margin:0;">
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            </li>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="form-title">Modifica Libro</h1>
+
+        <form th:action="@{'/admin/books/edit/' + ${book.id}}" th:object="${book}" method="post"
+            enctype="multipart/form-data" class="book-form">
+
+            <label class="form-label">Titolo:
+                <input type="text" th:field="*{title}" required class="form-input" />
+            </label>
+
+            <label class="form-label">Anno:
+                <input type="number" th:field="*{year}" min="1000" max="9999" required class="form-input" />
+            </label>
+
+            <label class="form-label">Autori:</label>
+            <div id="checkboxes">
+                <th:block th:each="author : ${authors}">
+                    <label>
+                        <input type="checkbox" name="authors" th:value="${author.id}"
+                            th:checked="${#lists.contains(book.authors, author)}" />
+                        <span th:text="${author.name + ' ' + author.surname}"></span>
+                    </label>
+                </th:block>
+            </div>
+
+            <label class="form-label">Sostituisci copertina:
+                <input type="file" name="coverFile" accept="image/*" />
+            </label>
+
+            <button type="submit" class="form-submit">Aggiorna</button>
+        </form>
+    </main>
+
+    <script src="/js/formScript.js"></script>
+</body>
+
+</html>

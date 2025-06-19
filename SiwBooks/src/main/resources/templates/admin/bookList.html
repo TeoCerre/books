@@ -38,10 +38,15 @@
                         <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
                         <p th:text="${libro.title}"></p>
                     </a>
-                    <form th:action="@{'/admin/books/delete/' + ${libro.id}}" method="post"
-                        onsubmit="return confirm('Confermi la cancellazione del libro?');">
-                        <button type="submit" class="delete-button">Cancella</button>
-                    </form>
+                    <div class="book-actions">
+                        <form th:action="@{'/admin/books/delete/' + ${libro.id}}" method="post"
+                            onsubmit="return confirm('Confermi la cancellazione del libro?');" style="display:inline;">
+                            <button type="submit" class="delete-button">Cancella</button>
+                        </form>
+
+                        <a th:href="@{'/admin/books/edit/' + ${libro.id}}" class="admin-button">Modifica</a>
+                    </div>
+
                 </div>
             </div>
         </section>

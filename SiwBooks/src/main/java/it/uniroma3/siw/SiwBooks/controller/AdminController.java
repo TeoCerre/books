@@ -181,6 +181,54 @@ public class AdminController {
         return "redirect:/admin/autori";
     }
 
+    @GetMapping("/books/edit/{id}")
+    public String editBook(@PathVariable Long id, Model model) {
+        Book book = bookService.findById(id);
+        if (book == null) {
+            return "redirect:/admin/books";
+        }
+
+        model.addAttribute("book", book);
+        model.addAttribute("authors", authorService.findAll());
+        return "admin/editBook";
+    }
+
+    @PostMapping("/books/edit/{id}")
+    public String updateBook(@PathVariable Long id,
+            @ModelAttribute("book") Book book,
+            @RequestParam("authors") List<Long> authorIds,
+            @RequestParam("coverFile") MultipartFile coverFile,
+            Model model) {
+
+        Book existing = bookService.findById(id);
+        if (existing == null) {
+            return "redirect:/admin/books";
+        }
+
+        existing.setTitle(book.getTitle());
+        existing.setYear(book.getYear());
+
+        if (!coverFile.isEmpty()) {
+            try {
+                existing.setCoverImage(coverFile.getBytes());
+            } catch (IOException e) {
+                model.addAttribute("errore", "Errore nella modifica della copertina.");
+                model.addAttribute("authors", authorService.findAll());
+                return "admin/editBook";
+            }
+        }
+
+        Set<Author> selectedAuthors = authorIds.stream()
+                .map(authorService::findById)
+                .filter(a -> a != null)
+                .collect(Collectors.toSet());
+        existing.setAuthors(selectedAuthors);
+
+        bookService.save(existing);
+
+        return "redirect:/admin/books";
+    }
+
     @GetMapping("/reviews/delete")
     public String deleteReviews(Model model) {
         // Assumi che ReviewService sia autowired
