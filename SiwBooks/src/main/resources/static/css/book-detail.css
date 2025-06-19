@@ -182,3 +182,41 @@
     max-height: 200px;
   }
 }
+
+.book-gallery {
+    margin-top: 30px;
+}
+
+.book-gallery h3 {
+    border-left: 4px solid #d4a373;
+    padding-left: 10px;
+    font-weight: 700;
+    color: #b08968;
+    margin-bottom: 15px;
+}
+
+.gallery-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.gallery-images img {
+    width: 140px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.gallery-images img:hover {
+    transform: scale(1.04);
+}
+
+.no-reviews,
+.no-extra-images {
+    color: #888;
+    font-style: italic;
+    padding: 10px;
+}

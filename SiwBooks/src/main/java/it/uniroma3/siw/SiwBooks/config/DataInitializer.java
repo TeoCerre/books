@@ -28,7 +28,10 @@ public class DataInitializer {
                     "White Noise", "White Noise.jpeg",
                     "Atonement", "Atonement.jpeg",
                     "Io non ho paura", "Io non ho paura.jpeg",
-                    "The Corrections", "The Corrections.jpeg");
+                    "The Corrections", "The Corrections.jpeg",
+                    "Anna", "Anna.jpeg",
+                    "Freedom", "Freedom.jpeg",
+                    "Underworld", "Underworld.jpeg");
 
             for (Map.Entry<String, String> entry : booksImages.entrySet()) {
                 String title = entry.getKey();

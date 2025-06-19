@@ -42,17 +42,25 @@
                         </div>
                     </div>
                     <div class="book-gallery">
-                        <h3>Altre immagini</h3>
-                        <div class="gallery-images">
+                        <h3>Altre immagini del libro</h3>
+                        <div class="gallery-images" th:if="${#lists.isEmpty(book.images)}">
+                            <p class="no-extra-images">📭 Nessuna immagine aggiuntiva disponibile.</p>
+                        </div>
+                        <div class="gallery-images" th:if="${!#lists.isEmpty(book.images)}">
                             <img th:each="img : ${book.images}" th:src="@{'/bookImages/' + ${img.id}}"
-                                style="width:150px;margin:5px;" />
+                                th:alt="${book.title + ' - Immagine aggiuntiva'}" />
                         </div>
                     </div>
+
                 </div>
 
                 <div class="reviews">
                     <h3>Recensioni</h3>
-                    <ul>
+                    <ul th:if="${#lists.isEmpty(book.reviews)}">
+                        <p class="no-reviews">📝 Nessuna recensione presente per questo libro. Sii il primo a scriverne
+                            una!</p>
+                    </ul>
+                    <ul th:if="${!#lists.isEmpty(book.reviews)}">
                         <li th:each="recensione : ${book.reviews}" class="review-item">
                             <strong th:text="${recensione.title}">Titolo recensione</strong><br />
                             <span th:text="'Valutazione: ' + ${recensione.rating} + '/5'">Valutazione</span><br />
@@ -61,6 +69,7 @@
                         </li>
                     </ul>
                 </div>
+
             </div>
 
             <div sec:authorize="isAuthenticated()" th:if="${!alreadyReviewed}" class="review-form-container">
