@@ -67,11 +67,31 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
+/* Hero section con immagine di sfondo librarybg.jpeg */
 .hero {
     text-align: center;
-    background-color: #f2e9e1;
+    background: url('/images/librarybg.jpeg') center center/cover no-repeat;
     color: #3e3e3e;
     padding: 80px 20px;
+    position: relative;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(242, 233, 225, 0.82); /* leggero overlay per leggibilità */
+    z-index: 0;
+}
+
+.hero > * {
+    position: relative;
+    z-index: 1;
 }
 
 .hero h1 {

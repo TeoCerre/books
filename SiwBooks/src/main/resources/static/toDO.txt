@@ -1,7 +1,5 @@
 DA FARE:
-        - mantenere i libri se cancello gli autori
-        -admin non deve tornare alla vera home (ci passsa solo se clicca un libro/autore)
-        -controllo che gli altri non vadano in admin -> gli da errore (mettiamo pagina senza permesso)
+        -admin non deve tornare alla vera home (ci passa solo se clicca un libro/autore)
         -aggiungere più elementi pre-esistenti (soprattutto più foto dei libri)
 IN più: -ricerca libro 
         -ordina libri per recensioni
