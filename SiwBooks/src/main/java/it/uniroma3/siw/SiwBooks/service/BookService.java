@@ -3,6 +3,7 @@ package it.uniroma3.siw.SiwBooks.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.SiwBooks.model.Book;
@@ -50,6 +51,10 @@ public class BookService {
 
     public void delete(Book book) {
         this.bookRepository.delete(book);
+    }
+
+    public List<Book> findTop5BooksByAverageRating() {
+        return bookRepository.findTopBooksOrderByAverageRating(PageRequest.of(0, 5));
     }
 
     @Transactional(readOnly = true)

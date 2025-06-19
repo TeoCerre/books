@@ -46,6 +46,26 @@
                 </div>
             </div>
         </section>
+        <section class="top-books">
+            <h2>I migliori libri del momento</h2>
+            <div class="top-books-list">
+                <div class="top-book" th:each="book, iterStat : ${topBooks}">
+                    <div class="rank-number" th:text="${iterStat.index + 1}"
+                        th:style="${'opacity:' + (averageRatings[book.id] / 5)}">
+                    </div>
+
+                    <a th:href="@{'/books/' + ${book.id}}">
+                        <img th:src="@{'/books/' + ${book.id} + '/cover'}" th:alt="${book.title}" />
+                    </a>
+                    <h3 th:text="${book.title}"></h3>
+                    <p>Valutazione media: <span
+                            th:text="${#numbers.formatDecimal(averageRatings[book.id], 1, 1)}"></span> / 5</p>
+                    <p th:text="${firstReviewTexts[book.id]}"></p>
+                </div>
+
+            </div>
+        </section>
+
     </main>
 
     <footer>

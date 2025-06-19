@@ -72,14 +72,15 @@ nav ul li a:hover {
     text-align: center;
     background: url('/images/librarybg.jpeg') center center/cover no-repeat;
     color: #3e3e3e;
-    padding: 80px 20px;
+    padding: 60px 30px;     /* RIDOTTO */
     position: relative;
-    min-height: 340px;
+    min-height: 280px;      /* RIDOTTO */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 
 .hero::before {
     content: "";
@@ -285,4 +286,77 @@ footer {
     cursor: pointer;
 }
 
+.top-books-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 25px;
+    padding-bottom: 0; /* togli il padding che serve solo per scrollbar flex */
+    overflow-x: visible; /* disabilita lo scroll orizzontale */
+}
 
+.top-books h2 {
+    border-left: 5px solid #d4a373;
+    padding-left: 15px;
+    font-size: 1.6em;
+    margin-bottom: 25px;
+    color: #b08968;
+}
+
+
+.top-book {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.top-book:hover {
+    box-shadow: 0 4px 16px rgba(176, 137, 104, 0.18);
+    transform: translateY(-2px) scale(1.03);
+}
+
+.top-book img {
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.top-book h3 {
+    font-size: 1em;
+    margin: 10px 0 8px 0;
+    color: #b08968;
+}
+
+.top-book p {
+    font-size: 0.9em;
+    color: #3e3e3e;
+    height: auto; /* togli altezza fissa per mostrare testo completo */
+    overflow: visible;
+    text-overflow: unset;
+}
+.top-book {
+    position: relative; /* necessario per posizionare rank-number assoluto */
+}
+
+.rank-number {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 6rem;
+    font-weight: 900;
+    color: #d4a373;
+    user-select: none;
+    pointer-events: none;
+    z-index: 5;
+    font-family: 'Arial Black', Arial, sans-serif;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+    mix-blend-mode: multiply; /* effetto trasparenza soft */
+    opacity: 0.3; /* sarà sovrascritto inline dallo style di thymeleaf */
+    transition: opacity 0.3s ease;
+}

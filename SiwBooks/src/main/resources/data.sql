@@ -28,8 +28,8 @@ INSERT INTO book_authors (books_id, authors_id) VALUES
 
 INSERT INTO users (username, email, password, role) VALUES
 ('admin', 'admin@example.com', '$2a$10$ucGnEQLK49WmoEEcJdLYt.CoktosKI7JeHD9iLdbu60Ix3ruIk7Sm', 'ADMIN'),
-('mario', 'mario@example.com', '$2a$10$6KLzZrxYUvK/Ufdo3Zq1Re4PCkGJYYX/bOB4cs5pO0NOOQO3Hy8zK', 'REGISTERED'),
-('anna', 'anna@example.com', '$2a$10$uCbpl0b/9uIqG4PzqDpUe.GZekvXx5I1Umi3iyFbRylbTKoZVNN8K', 'REGISTERED');
+('mario', 'mario@example.com', '$2a$12$GGEc6IwZlIun69cdyswDV.zchU0BYJ3UZIDILn5Xq99GfOwuh8fXu', 'REGISTERED'),
+('anna', 'anna@example.com', '$2a$12$GGEc6IwZlIun69cdyswDV.zchU0BYJ3UZIDILn5Xq99GfOwuh8fXu', 'REGISTERED');
 
 INSERT INTO review (title, text, rating, book_id, author_id) VALUES
 ('Bellissimo', 'Un romanzo davvero coinvolgente.', 5, 1, 1),

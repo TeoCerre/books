@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Pageable;
 
 import it.uniroma3.siw.SiwBooks.model.*;
 
@@ -23,5 +24,13 @@ public interface BookRepository extends CrudRepository<Book, Long> {
                 WHERE b.id = :id
             """)
     Optional<Book> findByIdWithAllDetails(@Param("id") Long id);
+
+    @Query("""
+                SELECT b FROM Book b
+                LEFT JOIN b.reviews r
+                GROUP BY b
+                ORDER BY COALESCE(AVG(r.rating), 0) DESC
+            """)
+    List<Book> findTopBooksOrderByAverageRating(Pageable pageable);
 
 }
