@@ -51,17 +51,6 @@
                 <input type="file" class="form-input" name="photoFile" accept="image/*" required />
             </label>
 
-            <label class="form-label">Libri (seleziona):</label>
-            <div id="checkboxes">
-                <th:block th:each="book : ${books}">
-                    <label>
-                        <input type="checkbox" name="bookIds" th:value="${book.id}"
-                            th:checked="${#lists.contains(author.books, book)}" />
-                        <span th:text="${book.title}"></span>
-                    </label>
-                </th:block>
-            </div>
-
             <button class="form-submit" type="submit">Salva</button>
         </form>
     </main>

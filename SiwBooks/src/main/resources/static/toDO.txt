@@ -3,10 +3,8 @@ Gli amministratori possono aggiungere, modificare, cancellare libri e autori.
 Gli amministratori possono anche cancellare le recensioni (ma non possono modificarle)
 
 
-I LIBRI SI DEVONO VEDERE ANCHE SE CANCELLO GLI AUTORI?
 
-DA FARE:-risolvi nuovo autore
-        -modifica
+DA FARE: - mantenere i libri se cancello gli autori
         -admin non deve tornare alla vera home (ci passsa solo se clicca un libro/autore)
         -sistema bottone logout
         -controllo che gli altri non vadano in admin -> gli da errore (mettiamo pagina senza permesso)
