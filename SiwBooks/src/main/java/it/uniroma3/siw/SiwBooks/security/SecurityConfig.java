@@ -30,7 +30,8 @@ public class SecurityConfig {
                                                                 "/books/*/cover",
                                                                 "/authors/*/photo", "/books/*", "/authors",
                                                                 "/authors/**", "/login",
-                                                                "/authorDetails.html")
+                                                                "/authorDetails.html",
+                                                                "/bookImages/**", "/books/*/cover")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**", "/admin/rest/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())

@@ -41,6 +41,13 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="book-gallery">
+                        <h3>Altre immagini</h3>
+                        <div class="gallery-images">
+                            <img th:each="img : ${book.images}" th:src="@{'/bookImages/' + ${img.id}}"
+                                style="width:150px;margin:5px;" />
+                        </div>
+                    </div>
                 </div>
 
                 <div class="reviews">

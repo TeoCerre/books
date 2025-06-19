@@ -2,6 +2,8 @@ package it.uniroma3.siw.SiwBooks.model;
 
 import jakarta.persistence.*;
 import javax.validation.constraints.*;
+
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,6 +21,9 @@ public class Book {
 
     @Lob
     private byte[] coverImage;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<BookImage> images = new HashSet<>();
 
     @ManyToMany
     private Set<Author> authors;
@@ -56,6 +61,14 @@ public class Book {
 
     public void setCoverImage(byte[] coverImage) {
         this.coverImage = coverImage;
+    }
+
+    public Set<BookImage> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<BookImage> images) {
+        this.images = images;
     }
 
     public Set<Author> getAuthors() {
