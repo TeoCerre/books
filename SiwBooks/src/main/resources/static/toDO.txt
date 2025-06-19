@@ -1,4 +1,3 @@
 DA FARE:-aggiungi foto in modifica libro
         -admin non deve tornare alla vera home (ci passa solo se clicca un libro/autore)
 IN più: -ricerca libro 
-        -ordina autori per recensioni
