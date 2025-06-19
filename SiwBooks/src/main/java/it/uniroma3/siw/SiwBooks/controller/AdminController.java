@@ -229,6 +229,56 @@ public class AdminController {
         return "redirect:/admin/books";
     }
 
+    @GetMapping("/autori/edit/{id}")
+    public String editAuthor(@PathVariable Long id, Model model) {
+        Author author = authorService.findByIdWithBooks(id);
+        model.addAttribute("author", author);
+        model.addAttribute("books", bookService.findAll());
+        return "admin/editAuthor";
+    }
+
+    @PostMapping("/autori/edit/{id}")
+    public String updateAuthor(@PathVariable Long id,
+            @ModelAttribute("author") Author updatedAuthor,
+            @RequestParam(value = "bookIds", required = false) List<Long> bookIds,
+            @RequestParam("photoFile") MultipartFile photoFile,
+            Model model) {
+        Author existingAuthor = authorService.findById(id);
+
+        // Aggiorna i campi base
+        existingAuthor.setName(updatedAuthor.getName());
+        existingAuthor.setSurname(updatedAuthor.getSurname());
+        existingAuthor.setBirthDate(updatedAuthor.getBirthDate());
+        existingAuthor.setDeathDate(updatedAuthor.getDeathDate());
+        existingAuthor.setNationality(updatedAuthor.getNationality());
+
+        // Se è stata caricata una nuova foto
+        if (!photoFile.isEmpty()) {
+            try {
+                existingAuthor.setPhoto(photoFile.getBytes());
+            } catch (IOException e) {
+                model.addAttribute("errore", "Errore nella modifica della foto.");
+                model.addAttribute("books", bookService.findAll());
+                return "admin/editAuthor";
+            }
+        }
+
+        // Aggiorna libri associati
+        Set<Book> books = new HashSet<>();
+        if (bookIds != null) {
+            for (Long bookId : bookIds) {
+                Book book = bookService.findById(bookId);
+                books.add(book);
+                book.getAuthors().add(existingAuthor); // bidirezionale
+            }
+        }
+        existingAuthor.setBooks(books);
+
+        authorService.save(existingAuthor);
+
+        return "redirect:/admin/autori";
+    }
+
     @GetMapping("/reviews/delete")
     public String deleteReviews(Model model) {
         // Assumi che ReviewService sia autowired

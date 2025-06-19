@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Modifica Autore</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/form.css" />
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <span class="logo">SIWBooks Admin</span>
+        </div>
+        <div class="header-right">
+            <a href="/admin/home" class="admin-home-button">Home Admin</a>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post" style="margin:0;">
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            </li>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="form-title">Modifica autore</h1>
+
+        <form class="book-form"
+              th:action="@{'/admin/autori/edit/' + ${author.id}}"
+              th:object="${author}" method="post"
+              enctype="multipart/form-data">
+
+            <label class="form-label">Nome:
+                <input type="text" class="form-input" th:field="*{name}" required />
+            </label>
+
+            <label class="form-label">Cognome:
+                <input type="text" class="form-input" th:field="*{surname}" required />
+            </label>
+
+            <label class="form-label">Data di nascita:
+                <input type="date" class="form-input" th:field="*{birthDate}" required />
+            </label>
+
+            <label class="form-label">Data di morte:
+                <input type="date" class="form-input" th:field="*{deathDate}" />
+            </label>
+
+            <label class="form-label">Nazionalità:
+                <input type="text" class="form-input" th:field="*{nationality}" required />
+            </label>
+
+            <label class="form-label">Carica nuova foto (opzionale):
+                <input type="file" class="form-input" name="photoFile" accept="image/*" />
+            </label>
+
+            <label class="form-label">Libri (seleziona):</label>
+            <div id="checkboxes">
+                <th:block th:each="book : ${books}">
+                    <label>
+                        <input type="checkbox" name="bookIds" th:value="${book.id}"
+                               th:checked="${#lists.contains(author.books, book)}" />
+                        <span th:text="${book.title}"></span>
+                    </label>
+                </th:block>
+            </div>
+
+            <button class="form-submit" type="submit">Salva modifiche</button>
+        </form>
+    </main>
+</body>
+
+</html>

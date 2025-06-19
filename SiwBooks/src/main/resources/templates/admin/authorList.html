@@ -43,12 +43,17 @@
                     <p th:if="${autore.deathDate != null}"
                         th:text="'Deceduto il: ' + ${#temporals.format(autore.deathDate, 'dd/MM/yyyy')}"></p>
                     <p th:text="'Nazionalità: ' + ${autore.nationality}"></p>
+
                     <form th:action="@{'/admin/autori/delete/' + ${autore.id}}" method="post"
                         onsubmit="return confirm('Sei sicuro di voler eliminare questo autore?');">
                         <button type="submit" class="delete-button">Elimina</button>
                     </form>
 
+                    <form th:action="@{'/admin/autori/edit/' + ${autore.id}}" method="get" style="margin-top: 5px;">
+                        <button type="submit" class="edit-button">Modifica</button>
+                    </form>
                 </div>
+
             </div>
         </section>
     </main>
