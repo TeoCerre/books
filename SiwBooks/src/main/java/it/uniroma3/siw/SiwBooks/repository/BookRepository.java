@@ -33,4 +33,11 @@ public interface BookRepository extends CrudRepository<Book, Long> {
             """)
     List<Book> findTopBooksOrderByAverageRating(Pageable pageable);
 
+    @Query("""
+                SELECT b FROM Book b
+                LEFT JOIN FETCH b.images
+                WHERE b.id = :id
+            """)
+    Optional<Book> findByIdWithImages(@Param("id") Long id);
+
 }

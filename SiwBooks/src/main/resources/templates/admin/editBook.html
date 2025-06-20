@@ -51,6 +51,29 @@
                 <input type="file" name="coverFile" accept="image/*" />
             </label>
 
+            <!-- Visualizzazione immagini esistenti -->
+            <div class="form-label">
+                <label>Immagini attuali:</label>
+                <div class="image-gallery">
+                    <th:block th:each="img : ${book.images}">
+                        <div class="image-item">
+                            <img th:src="@{'/admin/books/image/' + ${img.id}}" alt="Immagine libro" width="100" />
+                            <form th:action="@{'/admin/books/image/delete/' + ${img.id}}" method="post">
+                                <button type="submit">Elimina</button>
+                            </form>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <!-- Upload nuove immagini -->
+            <div class="form-label">
+                <label>Aggiungi nuove immagini:
+                    <input type="file" name="newImages" accept="image/*" multiple />
+                </label>
+            </div>
+
+
             <button type="submit" class="form-submit">Aggiorna</button>
         </form>
     </main>

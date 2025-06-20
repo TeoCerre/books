@@ -7,7 +7,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.SiwBooks.model.Book;
+import it.uniroma3.siw.SiwBooks.model.BookImage;
 import it.uniroma3.siw.SiwBooks.repository.BookRepository;
+import it.uniroma3.siw.SiwBooks.repository.BookImageRepository;
 import it.uniroma3.siw.SiwBooks.repository.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,9 @@ public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private BookImageRepository bookImageRepository;
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -62,5 +67,25 @@ public class BookService {
         return bookRepository.findByIdWithAllDetails(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found"));
     }
+
+    public byte[] getImageDataById(Long imageId) {
+        return bookImageRepository.findById(imageId).orElseThrow().getImageData();
+    }
+
+    public Long deleteImageById(Long imageId) {
+        BookImage img = bookImageRepository.findById(imageId).orElseThrow();
+        Long bookId = img.getBook().getId();
+        bookImageRepository.delete(img);
+        return bookId;
+    }
+
+    public BookImage findImageById(Long id) {
+    return bookImageRepository.findById(id).orElse(null);
+}
+
+public void deleteImage(BookImage image) {
+    bookImageRepository.delete(image);
+}
+
 
 }

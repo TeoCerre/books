@@ -33,7 +33,6 @@
             <h2>Autori presenti</h2>
             <div class="books">
                 <div class="book" th:each="autore : ${autori}">
-                    <a th:href="@{'/authors/' + ${autore.id}}">
                         <img th:src="@{'/authors/' + ${autore.id} + '/photo'}"
                             th:alt="${autore.name + ' ' + autore.surname}" />
                         <p th:text="${autore.name + ' ' + autore.surname}"></p>

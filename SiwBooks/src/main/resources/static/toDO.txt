@@ -1,3 +1,2 @@
-DA FARE:-aggiungi foto in modifica libro
-        -admin non deve tornare alla vera home (ci passa solo se clicca un libro/autore)
+DA FARE:-aggiungi foto in modifica libro -> risolvi o rimuovi
 IN più: -ricerca libro 

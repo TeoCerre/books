@@ -4,27 +4,19 @@ import java.beans.PropertyEditorSupport;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
 
 import it.uniroma3.siw.SiwBooks.model.Author;
 import it.uniroma3.siw.SiwBooks.model.Book;
+import it.uniroma3.siw.SiwBooks.model.BookImage;
 import it.uniroma3.siw.SiwBooks.service.AuthorService;
 import it.uniroma3.siw.SiwBooks.service.BookService;
 import it.uniroma3.siw.SiwBooks.service.ReviewService;
@@ -47,14 +39,14 @@ public class AdminController {
         return "admin/adminHome";
     }
 
+    /* ---------------- BOOKS ------------------ */
+
     @GetMapping("/books/new")
     public String newBook(Model model) {
-        List<Author> authors = authorService.findAll();
-        System.out.println("Autori trovati: " + authors.size()); // DEBUG
         Book book = new Book();
         book.setAuthors(new HashSet<>());
         model.addAttribute("book", book);
-        model.addAttribute("authors", authors);
+        model.addAttribute("authors", authorService.findAll());
         return "admin/newBook";
     }
 
@@ -64,38 +56,15 @@ public class AdminController {
         return "admin/bookList";
     }
 
-    @GetMapping("/books/{id}/cover")
-    @ResponseBody
-    public byte[] getBookCover(@PathVariable Long id) {
-        Book book = bookService.findById(id);
-        return book.getCoverImage();
-    }
-
-    @GetMapping("/authors/new")
-    public String newAuthor(Model model) {
-        Author author = new Author();
-        author.setBooks(new HashSet<>()); // ✅ Inizializzazione esplicita
-        model.addAttribute("author", author);
-        model.addAttribute("books", bookService.findAll());
-        return "admin/newAuthor";
-    }
-
-    @GetMapping("/autori")
-    public String adminAuthors(Model model) {
-        model.addAttribute("autori", authorService.findAll());
-        return "admin/authorList";
-    }
-
     @PostMapping("/books")
     public String saveBook(@ModelAttribute("book") Book book,
             @RequestParam("authors") List<Long> authorIds,
             @RequestParam("coverFile") MultipartFile coverFile,
             Model model) {
-        // Gestione immagine come già fatto
+
         if (!coverFile.isEmpty()) {
             try {
-                byte[] imageBytes = coverFile.getBytes();
-                book.setCoverImage(imageBytes);
+                book.setCoverImage(coverFile.getBytes());
             } catch (IOException e) {
                 model.addAttribute("errore", "Errore nel caricamento della copertina.");
                 model.addAttribute("authors", authorService.findAll());
@@ -103,119 +72,50 @@ public class AdminController {
             }
         }
 
-        // Recupera gli autori completi dal DB
         Set<Author> fullAuthors = authorIds.stream()
-                .map(id -> authorService.findById(id))
-                .filter(a -> a != null)
+                .map(authorService::findById)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
-
         book.setAuthors(fullAuthors);
 
-        // Salva il libro
         bookService.save(book);
-
         return "redirect:/admin/books";
     }
 
-    @PostMapping("/autori/delete/{id}")
-    public String deleteAuthor(@PathVariable Long id) {
-        Author author = authorService.findByIdWithBooks(id);
-
-        // Scollega l'autore da tutti i libri
-        if (author.getBooks() != null) {
-            for (Book book : author.getBooks()) {
-                book.getAuthors().remove(author);
-            }
-        }
-
-        authorService.deleteById(id); // Ora si può eliminare senza problemi
-        return "redirect:/admin/autori";
-    }
-
-    @PostMapping("/books/delete/{id}")
-    public String deleteBook(@PathVariable Long id) {
-        bookService.deleteById(id);
-        return "redirect:/admin/books";
-    }
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
-            @Override
-            public void setAsText(String text) {
-                if (text == null || text.trim().isEmpty()) {
-                    setValue(null); // stringa vuota diventa null
-                } else {
-                    setValue(LocalDate.parse(text, DateTimeFormatter.ISO_LOCAL_DATE));
-                }
-            }
-        });
-    }
-
-    @PostMapping("/autori")
-    public String saveAuthor(@ModelAttribute("author") Author author,
-            @RequestParam(value = "bookIds", required = false) List<Long> bookIds,
-            @RequestParam("photoFile") MultipartFile photoFile,
-            Model model) {
-
-        // Caricamento foto
-        if (!photoFile.isEmpty()) {
-            try {
-                author.setPhoto(photoFile.getBytes());
-            } catch (IOException e) {
-                model.addAttribute("errore", "Errore nel caricamento della foto.");
-                model.addAttribute("books", bookService.findAll());
-                return "admin/newAuthor";
-            }
-        }
-
-        // Primo salvataggio per ottenere ID
-        authorService.save(author);
-
-        // Se ci sono libri selezionati, crea la relazione
-        if (bookIds != null && !bookIds.isEmpty()) {
-            Set<Book> books = bookIds.stream()
-                    .map(bookService::findById)
-                    .filter(b -> b != null)
-                    .collect(Collectors.toSet());
-
-            for (Book book : books) {
-                book.getAuthors().add(author); // bidirezionale
-            }
-
-            author.setBooks(books);
-            authorService.save(author); // risalva con i libri
-        }
-
-        return "redirect:/admin/autori";
+    @GetMapping("/books/{id}/cover")
+    @ResponseBody
+    public byte[] getBookCover(@PathVariable Long id) {
+        Book book = bookService.findById(id);
+        return book != null ? book.getCoverImage() : new byte[0];
     }
 
     @GetMapping("/books/edit/{id}")
     public String editBook(@PathVariable Long id, Model model) {
-        Book book = bookService.findById(id);
+        Book book = bookService.findByIdWithReviews(id); // o con immagini se hai un metodo apposito
         if (book == null) {
             return "redirect:/admin/books";
         }
 
         model.addAttribute("book", book);
         model.addAttribute("authors", authorService.findAll());
+        model.addAttribute("images", book.getImages()); // 👈 aggiungi le immagini al model
         return "admin/editBook";
     }
 
     @PostMapping("/books/edit/{id}")
     public String updateBook(@PathVariable Long id,
-            @ModelAttribute("book") Book book,
+            @ModelAttribute("book") Book updatedBook,
             @RequestParam("authors") List<Long> authorIds,
             @RequestParam("coverFile") MultipartFile coverFile,
+            @RequestParam(value = "newImages", required = false) MultipartFile[] newImages,
             Model model) {
 
         Book existing = bookService.findById(id);
-        if (existing == null) {
+        if (existing == null)
             return "redirect:/admin/books";
-        }
 
-        existing.setTitle(book.getTitle());
-        existing.setYear(book.getYear());
+        existing.setTitle(updatedBook.getTitle());
+        existing.setYear(updatedBook.getYear());
 
         if (!coverFile.isEmpty()) {
             try {
@@ -229,13 +129,100 @@ public class AdminController {
 
         Set<Author> selectedAuthors = authorIds.stream()
                 .map(authorService::findById)
-                .filter(a -> a != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
         existing.setAuthors(selectedAuthors);
 
-        bookService.save(existing);
+        if (newImages != null) {
+            for (MultipartFile file : newImages) {
+                if (!file.isEmpty()) {
+                    try {
+                        BookImage img = new BookImage();
+                        img.setBook(existing);
+                        img.setImageData(file.getBytes());
+                        existing.getImages().add(img);
+                    } catch (IOException e) {
+                        model.addAttribute("errore", "Errore nel caricamento immagini aggiuntive.");
+                        model.addAttribute("authors", authorService.findAll());
+                        return "admin/editBook";
+                    }
+                }
+            }
+        }
 
+        bookService.save(existing);
         return "redirect:/admin/books";
+    }
+
+    @PostMapping("/books/delete/{id}")
+    public String deleteBook(@PathVariable Long id) {
+        bookService.deleteById(id);
+        return "redirect:/admin/books";
+    }
+
+    @PostMapping("/books/image/delete/{id}")
+    public String deleteBookImage(@PathVariable Long id) {
+        BookImage image = bookService.findImageById(id);
+        if (image != null) {
+            Book book = image.getBook();
+            book.getImages().remove(image);
+            bookService.deleteImage(image); // metodo da implementare nel service/repository
+            bookService.save(book);
+            return "redirect:/admin/books/edit/" + book.getId();
+        }
+        return "redirect:/admin/books";
+    }
+
+    /* ---------------- AUTHORS ------------------ */
+
+    @GetMapping("/authors/new")
+    public String newAuthor(Model model) {
+        Author author = new Author();
+        author.setBooks(new HashSet<>());
+        model.addAttribute("author", author);
+        model.addAttribute("books", bookService.findAll());
+        return "admin/newAuthor";
+    }
+
+    @PostMapping("/autori")
+    public String saveAuthor(@ModelAttribute("author") Author author,
+            @RequestParam(value = "bookIds", required = false) List<Long> bookIds,
+            @RequestParam("photoFile") MultipartFile photoFile,
+            Model model) {
+
+        if (!photoFile.isEmpty()) {
+            try {
+                author.setPhoto(photoFile.getBytes());
+            } catch (IOException e) {
+                model.addAttribute("errore", "Errore nel caricamento della foto.");
+                model.addAttribute("books", bookService.findAll());
+                return "admin/newAuthor";
+            }
+        }
+
+        authorService.save(author);
+
+        if (bookIds != null && !bookIds.isEmpty()) {
+            Set<Book> books = bookIds.stream()
+                    .map(bookService::findById)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            for (Book book : books) {
+                book.getAuthors().add(author);
+            }
+
+            author.setBooks(books);
+            authorService.save(author);
+        }
+
+        return "redirect:/admin/autori";
+    }
+
+    @GetMapping("/autori")
+    public String adminAuthors(Model model) {
+        model.addAttribute("autori", authorService.findAll());
+        return "admin/authorList";
     }
 
     @GetMapping("/autori/edit/{id}")
@@ -252,16 +239,17 @@ public class AdminController {
             @RequestParam(value = "bookIds", required = false) List<Long> bookIds,
             @RequestParam("photoFile") MultipartFile photoFile,
             Model model) {
-        Author existingAuthor = authorService.findById(id);
 
-        // Aggiorna i campi base
+        Author existingAuthor = authorService.findById(id);
+        if (existingAuthor == null)
+            return "redirect:/admin/autori";
+
         existingAuthor.setName(updatedAuthor.getName());
         existingAuthor.setSurname(updatedAuthor.getSurname());
         existingAuthor.setBirthDate(updatedAuthor.getBirthDate());
         existingAuthor.setDeathDate(updatedAuthor.getDeathDate());
         existingAuthor.setNationality(updatedAuthor.getNationality());
 
-        // Se è stata caricata una nuova foto
         if (!photoFile.isEmpty()) {
             try {
                 existingAuthor.setPhoto(photoFile.getBytes());
@@ -272,25 +260,38 @@ public class AdminController {
             }
         }
 
-        // Aggiorna libri associati
         Set<Book> books = new HashSet<>();
         if (bookIds != null) {
             for (Long bookId : bookIds) {
                 Book book = bookService.findById(bookId);
-                books.add(book);
-                book.getAuthors().add(existingAuthor); // bidirezionale
+                if (book != null) {
+                    books.add(book);
+                    book.getAuthors().add(existingAuthor);
+                }
             }
         }
         existingAuthor.setBooks(books);
-
         authorService.save(existingAuthor);
 
         return "redirect:/admin/autori";
     }
 
+    @PostMapping("/autori/delete/{id}")
+    public String deleteAuthor(@PathVariable Long id) {
+        Author author = authorService.findByIdWithBooks(id);
+        if (author.getBooks() != null) {
+            for (Book book : author.getBooks()) {
+                book.getAuthors().remove(author);
+            }
+        }
+        authorService.deleteById(id);
+        return "redirect:/admin/autori";
+    }
+
+    /* ---------------- REVIEWS ------------------ */
+
     @GetMapping("/reviews/delete")
     public String deleteReviews(Model model) {
-        // Assumi che ReviewService sia autowired
         model.addAttribute("reviews", reviewService.findAll());
         return "admin/reviewDelete";
     }
@@ -301,4 +302,19 @@ public class AdminController {
         return "redirect:/admin/reviews/delete";
     }
 
+    /* ---------------- BINDER ------------------ */
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                if (text == null || text.trim().isEmpty()) {
+                    setValue(null);
+                } else {
+                    setValue(LocalDate.parse(text, DateTimeFormatter.ISO_LOCAL_DATE));
+                }
+            }
+        });
+    }
 }

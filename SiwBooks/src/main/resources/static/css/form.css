@@ -122,6 +122,26 @@ input[type="file"]:focus {
     margin-bottom: 1em;
 }
 
+.image-gallery {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.image-item {
+    position: relative;
+}
+
+.image-item img {
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+
+.image-item form {
+    margin-top: 0.3rem;
+}
+
 
 @media (max-width: 600px) {
     .book-form {

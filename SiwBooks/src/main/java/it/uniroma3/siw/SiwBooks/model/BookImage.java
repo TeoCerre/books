@@ -14,6 +14,7 @@ public class BookImage {
     private byte[] imageData;
 
     @ManyToOne
+    @JoinColumn(name = "book_id")
     private Book book;
 
     // Getter e setter

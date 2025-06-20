@@ -11,7 +11,7 @@
 
 <body>
     <header>
-        <div class="logo"><a href="/">📚 SiwBooks</a></div>
+        <div class="logo">📚 SiwBooks</a></div>
         <nav>
             <ul>
                 <li><a href="/authors">Autori</a></li>
@@ -58,7 +58,7 @@
                         <img th:src="@{'/books/' + ${book.id} + '/cover'}" th:alt="${book.title}" />
                     </a>
                     <h3 th:text="${book.title}"></h3>
-                    <p>Valutazione media: <span
+                    <p>Val. media: <span
                             th:text="${#numbers.formatDecimal(averageRatings[book.id], 1, 1)}"></span> / 5</p>
                     <p th:text="${firstReviewTexts[book.id]}"></p>
                 </div>

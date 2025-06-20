@@ -33,7 +33,6 @@
             <h2>Libri disponibili</h2>
             <div class="books">
                 <div class="book" th:each="libro : ${libri}">
-                    <a th:href="@{'/books/' + ${libro.id}}">
                         <img th:src="@{'/books/' + ${libro.id} + '/cover'}" th:alt="${libro.title}" />
                         <p th:text="${libro.title}"></p>
                     </a>
