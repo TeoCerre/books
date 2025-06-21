@@ -113,13 +113,26 @@
   color: #888;
 }
 
-/* Form recensione */
+/* Form recensione largo poco meno della card principale */
 .review-form-container {
-  background: #f2e9e1;
-  padding: 20px 25px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-  max-width: 100%;
+  width: 96%;
+  max-width: 760px;
+  min-width: 0;
+  margin: 0 auto 30px auto;
+  background: linear-gradient(135deg, #fffaf3 60%, #f5ecd9 100%);
+  padding: 0 0 32px 0;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(176, 137, 104, 0.13);
+  border: 1.5px solid #e2d2b8;
+  position: relative;
+  transition: box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.review-form-container > form,
+.review-form-container > p {
+  padding: 32px 38px 0 38px;
+  box-sizing: border-box;
 }
 
 .review-form label {
@@ -149,21 +162,69 @@
   border-color: #b08968;
 }
 
+.review-form-container:hover {
+    box-shadow: 0 12px 32px rgba(176, 137, 104, 0.18);
+}
+
+.review-form label {
+    font-size: 1.08em;
+    margin-bottom: 10px;
+}
+
+.review-form input[type="text"],
+.review-form input[type="number"],
+.review-form textarea {
+    font-size: 1.08em;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1.5px solid #d6cbb1;
+    background: #fffdf9;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(212,163,115,0.04);
+}
+
 .review-form button {
-  width: 100%;
-  background-color: #d4a373;
-  color: white;
-  padding: 12px 0;
-  border: none;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    width: 100%;
+    background: linear-gradient(90deg, #d4a373 60%, #b08968 100%);
+    color: white;
+    padding: 15px 0;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1.15em;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(176,137,104,0.10);
+    transition: background 0.3s, box-shadow 0.2s;
+    margin-top: 10px;
 }
 
 .review-form button:hover {
-  background-color: #c58a54;
+    background: linear-gradient(90deg, #c58a54 60%, #a07556 100%);
+    box-shadow: 0 4px 16px rgba(176,137,104,0.16);
+}
+
+/* Centra la label Valutazione e le stelle nel form recensione */
+.review-form .rating-label {
+  display: block;
+  text-align: center;
+  font-size: 1.08em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #3e3e3e;
+}
+.star-rating {
+  justify-content: center;
+}
+
+/* Centra anche le label Titolo e Testo nel form recensione */
+.review-form label,
+.review-form .rating-label {
+  display: block;
+  text-align: center;
+  font-size: 1.08em;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #3e3e3e;
 }
 
 /* Responsive */
@@ -218,4 +279,45 @@
     color: #888;
     font-style: italic;
     padding: 10px;
+}
+
+/* Rating a stelle */
+.star-rating {
+    direction: rtl;
+    font-size: 1.8em;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px 0 20px;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.2s ease;
+}
+
+.star-rating input[type="radio"]:checked ~ label {
+    color: #d4a373;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #e3b97b;
+}
+
+/* Stile per link autore cliccabile in bookDetails */
+.author-link {
+  color: #b08968;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.author-link:hover {
+  color: #d4a373;
+  text-decoration: underline;
 }
