@@ -3,6 +3,7 @@ package it.uniroma3.siw.SiwBooks.config;
 import it.uniroma3.siw.SiwBooks.model.Book;
 import it.uniroma3.siw.SiwBooks.model.BookImage;
 import it.uniroma3.siw.SiwBooks.service.BookService;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +22,7 @@ public class DataInitializer {
     private BookService bookService;
 
     @Bean
+    @Transactional
     CommandLineRunner loadImages() {
         return args -> {
             Map<String, String> booksImages = Map.of(
