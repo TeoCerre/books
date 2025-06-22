@@ -26,63 +26,63 @@ public class BookService {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Double getAverageRatingForBook(Long bookId) {
         return reviewRepository.findAverageRatingByBookId(bookId);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Book> findAllBooks() {
         return bookRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Book findById(Long id) {
         return bookRepository.findById(id).orElse(null);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Book findByTitle(String title) {
         return bookRepository.findByTitle(title);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Book save(Book book) {
         return bookRepository.save(book);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Book> findAll() {
         return bookRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void delete(Book book) {
         this.bookRepository.delete(book);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Book> findTop5BooksByAverageRating() {
         return bookRepository.findTopBooksOrderByAverageRating(PageRequest.of(0, 5));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Book findByIdWithReviews(Long id) {
         return bookRepository.findByIdWithAllDetails(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public byte[] getImageDataById(Long imageId) {
         return bookImageRepository.findById(imageId).orElseThrow().getImageData();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Long deleteImageById(Long imageId) {
         BookImage img = bookImageRepository.findById(imageId).orElseThrow();
         Long bookId = img.getBook().getId();
@@ -90,17 +90,17 @@ public class BookService {
         return bookId;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public BookImage findImageById(Long id) {
         return bookImageRepository.findById(id).orElse(null);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void deleteImage(BookImage image) {
         bookImageRepository.delete(image);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Book> findBooksReviewedByUser(Long userId) {
         return reviewRepository.findBooksReviewedByUser(userId);
     }

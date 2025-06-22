@@ -28,29 +28,29 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Author> findAll() {
         return StreamSupport.stream(authorRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
-
+    @Transactional
     public void deleteById(Long id) {
         authorRepository.deleteById(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Author findById(Long id) {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Author not found"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Author findByIdWithBooks(Long id) {
         return authorRepository.findByIdWithBooks(id)
                 .orElseThrow(() -> new EntityNotFoundException("Author not found"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public byte[] getPhotoById(Long id) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Author not found"));

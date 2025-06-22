@@ -14,12 +14,12 @@ public class BookImageService {
     @Autowired
     private BookImageRepository bookImageRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<BookImage> findById(Long id) {
         return bookImageRepository.findById(id);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public BookImage save(BookImage image) {
         return bookImageRepository.save(image);
     }
