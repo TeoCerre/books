@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
           <div class="search-result-item">
             <a href="/books/${book.id}">
               <img src="/books/${book.id}/cover" alt="${book.title}" />
-              <span>${book.title}</span>
             </a>
+            <span><a href="/books/${book.id}">${book.title}</a></span>
           </div>
         `).join('') + `</div>`;
         resultsDiv.style.display = 'block';
