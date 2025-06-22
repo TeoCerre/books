@@ -31,6 +31,13 @@
         <button>Esplora ora</button>
     </section>
 
+    <section class="search-section">
+        <div class="search-bar-container">
+            <input type="text" id="book-search-input" placeholder="Cerca un libro..." autocomplete="off" />
+        </div>
+        <div id="search-results" class="search-results"></div>
+    </section>
+
     <main>
         <section class="shelf">
             <h2>Libri disponibili</h2>
@@ -46,7 +53,7 @@
                 </div>
             </div>
         </section>
-        <section class="top-books">
+        <section class="top-books"></section>
             <h2>I migliori libri del momento</h2>
             <div class="top-books-list">
                 <div class="top-book" th:each="book, iterStat : ${topBooks}">
@@ -84,6 +91,7 @@
     <footer>
         <p>&copy; 2025 SiwBooks. Tutti i diritti riservati.</p>
     </footer>
+    <script src="/js/bookSearch.js"></script>
 </body>
 
 </html>
