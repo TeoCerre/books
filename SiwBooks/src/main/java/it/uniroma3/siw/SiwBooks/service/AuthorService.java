@@ -18,6 +18,7 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    @Transactional(readOnly = true)
     public Author findByNameAndSurname(String name, String surname) {
         return authorRepository.findByNameAndSurname(name, surname);
     }
@@ -27,6 +28,7 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
+    @Transactional(readOnly = true)
     public List<Author> findAll() {
         return StreamSupport.stream(authorRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
