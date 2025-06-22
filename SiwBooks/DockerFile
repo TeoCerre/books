@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copia il file .jar dalla cartella target nel container
-COPY target/*.jar app.jar
+COPY target/SiwBooks-0.0.1-SNAPSHOT.jar
 
 # Espone la porta su cui Spring Boot gira (di default: 8080)
 EXPOSE 8080
