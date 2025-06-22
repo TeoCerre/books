@@ -1,14 +1,12 @@
-# Usa un'immagine base di Java 17 (adatta per Spring Boot)
+# Fase 1: Compila il progetto con Maven
+FROM maven:3.8.7-eclipse-temurin-17 AS builder
+WORKDIR /build
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Fase 2: Immagine finale minimal
 FROM openjdk:17-jdk-slim
-
-# Imposta la directory di lavoro dentro il container
 WORKDIR /app
-
-# Copia il file .jar dalla cartella target nel container
-COPY target/SiwBooks-0.0.1-SNAPSHOT.jar
-
-# Espone la porta su cui Spring Boot gira (di default: 8080)
+COPY --from=builder /build/target/SiwBooks-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Comando per avviare l'app
 ENTRYPOINT ["java", "-jar", "app.jar"]
