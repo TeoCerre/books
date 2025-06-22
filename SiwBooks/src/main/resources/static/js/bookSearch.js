@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', function () {
           resultsDiv.style.display = 'block';
           return;
         }
-        resultsDiv.innerHTML = books.map(book => `
+        resultsDiv.innerHTML = `<div class="search-results-list">` + books.map(book => `
           <div class="search-result-item">
             <a href="/books/${book.id}">
               <img src="/books/${book.id}/cover" alt="${book.title}" />
               <span>${book.title}</span>
             </a>
           </div>
-        `).join('');
+        `).join('') + `</div>`;
         resultsDiv.style.display = 'block';
       })
       .catch(() => {
