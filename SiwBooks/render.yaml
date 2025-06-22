@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: siwbooks-app
+    env: docker
+    rootDir: SiwBooks
+    dockerfilePath: SiwBooks/Dockerfile
+    plan: free
