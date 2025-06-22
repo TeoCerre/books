@@ -65,7 +65,20 @@
 
             </div>
         </section>
-
+        <section class="reread-books shelf" sec:authorize="isAuthenticated()" th:if="${rereadBooks != null and #lists.size(rereadBooks) > 0}">
+            <h2>Da rileggere</h2>
+            <div class="books">
+                <div class="book" th:each="book : ${rereadBooks}">
+                    <a th:href="@{'/books/' + ${book.id}}">
+                        <img th:src="@{'/books/' + ${book.id} + '/cover'}" th:alt="${book.title}" />
+                        <p th:text="${book.title}"></p>
+                    </a>
+                    <p>Valutazione media:
+                        <span th:text="${#numbers.formatDecimal(averageRatings[book.id], 1, 1)}"></span> / 5
+                    </p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>

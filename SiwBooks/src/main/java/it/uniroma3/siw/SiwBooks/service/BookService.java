@@ -87,5 +87,9 @@ public void deleteImage(BookImage image) {
     bookImageRepository.delete(image);
 }
 
+public List<Book> findBooksReviewedByUser(Long userId) {
+    return reviewRepository.findBooksReviewedByUser(userId);
+}
+
 
 }

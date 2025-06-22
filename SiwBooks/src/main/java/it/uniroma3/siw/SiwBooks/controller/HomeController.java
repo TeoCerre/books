@@ -8,15 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import it.uniroma3.siw.SiwBooks.model.Book;
+import it.uniroma3.siw.SiwBooks.model.User;
 import it.uniroma3.siw.SiwBooks.service.BookService;
+import it.uniroma3.siw.SiwBooks.service.UserService;
 
 @Controller
 public class HomeController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -47,6 +54,17 @@ public class HomeController {
 
         List<Book> topBooks = bookService.findTop5BooksByAverageRating();
         model.addAttribute("topBooks", topBooks);
+
+        // Se utente autenticato, aggiungi libri da rileggere
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
+            String username = auth.getName();
+            User user = userService.findByUsername(username);
+            if (user != null) {
+                List<Book> rereadBooks = bookService.findBooksReviewedByUser(user.getId());
+                model.addAttribute("rereadBooks", rereadBooks);
+            }
+        }
 
         return "home";
     }

@@ -11,6 +11,9 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
     Double findAverageRatingByBookId(@Param("bookId") Long bookId);
 
     @Query("SELECT COUNT(r) > 0 FROM Review r WHERE r.book.id = :bookId AND r.author.id = :userId")
-boolean existsByBookIdAndAuthorId(@Param("bookId") Long bookId, @Param("userId") Long userId);
+	boolean existsByBookIdAndAuthorId(@Param("bookId") Long bookId, @Param("userId") Long userId);
+	
+    @Query("SELECT r.book FROM Review r WHERE r.author.id = :userId")
+    java.util.List<Book> findBooksReviewedByUser(@Param("userId") Long userId);
 
 }
