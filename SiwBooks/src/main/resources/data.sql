@@ -1,20 +1,20 @@
-INSERT INTO author (name, surname, birth_date, nationality) VALUES
-('Elena', 'Ferrante', '1943-10-05', 'Italiana'),
-('Don', 'DeLillo', '1936-11-20', 'Americana'),
-('Ian', 'McEwan', '1948-06-21', 'Inglese'),
-('Niccolò', 'Ammaniti', '1966-09-25', 'Italiana'),
-('Jonathan', 'Franzen', '1959-08-17', 'Americana');
+INSERT INTO author (id,name, surname, birth_date, nationality) VALUES
+(1,'Elena', 'Ferrante', '1943-10-05', 'Italiana'),
+(2,'Don', 'DeLillo', '1936-11-20', 'Americana'),
+(3,'Ian', 'McEwan', '1948-06-21', 'Inglese'),
+(4,'Niccolò', 'Ammaniti', '1966-09-25', 'Italiana'),
+(5,'Jonathan', 'Franzen', '1959-08-17', 'Americana');
 
 -- Libri corrispondenti
-INSERT INTO book (title, year, cover_image) VALUES
-('L amica geniale', 2011, NULL),
-('White Noise', 1985, NULL),
-('Atonement', 2001, NULL),
-('Io non ho paura', 2001, NULL),
-('The Corrections', 2001, NULL),
-('Underworld', 1997, NULL),                        
-('Anna', 2015, NULL),                              
-('Freedom', 2010, NULL);
+INSERT INTO book (id,title, year, cover_image) VALUES
+(1,'L amica geniale', 2011, NULL),
+(2,'White Noise', 1985, NULL),
+(3,'Atonement', 2001, NULL),
+(4,'Io non ho paura', 2001, NULL),
+(5,'The Corrections', 2001, NULL),
+(6,'Underworld', 1997, NULL),                        
+(7,'Anna', 2015, NULL),                              
+(8,'Freedom', 2010, NULL);
 
 INSERT INTO book_authors (books_id, authors_id) VALUES
 (1, 1),
