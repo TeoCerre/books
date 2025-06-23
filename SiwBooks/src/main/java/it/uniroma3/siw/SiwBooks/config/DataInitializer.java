@@ -39,7 +39,8 @@ public class DataInitializer {
 
                 Book book = bookService.findByTitle(title);
                 if (book != null) {
-                    try (InputStream coverStream = getClass().getClassLoader().getResourceAsStream("static/images/" + coverFileName)) {
+                    try (InputStream coverStream = getClass().getClassLoader()
+                            .getResourceAsStream("static/images/" + coverFileName)) {
                         if (coverStream != null) {
                             byte[] coverBytes = coverStream.readAllBytes();
                             book.setCoverImage(coverBytes);
@@ -53,13 +54,23 @@ public class DataInitializer {
                     int index = 1;
                     while (true) {
                         String extraFileName = String.format("%s%d.jpeg", title, index);
-                        try (InputStream extraStream = getClass().getClassLoader().getResourceAsStream("static/images/" + extraFileName)) {
-                            if (extraStream == null) break;
+                        try (InputStream extraStream = getClass().getClassLoader()
+                                .getResourceAsStream("static/images/" + extraFileName)) {
+                            if (extraStream == null)
+                                break;
                             byte[] extraBytes = extraStream.readAllBytes();
-                            BookImage extraImage = new BookImage();
-                            extraImage.setBook(book);
-                            extraImage.setImageData(extraBytes);
-                            book.getImages().add(extraImage);
+
+                            // Check se l'immagine è già presente
+                            boolean alreadyExists = book.getImages().stream()
+                                    .anyMatch(img -> java.util.Arrays.equals(img.getImageData(), extraBytes));
+
+                            if (!alreadyExists) {
+                                BookImage extraImage = new BookImage();
+                                extraImage.setBook(book);
+                                extraImage.setImageData(extraBytes);
+                                book.getImages().add(extraImage);
+                            }
+
                             index++;
                         }
                     }
