@@ -4,14 +4,12 @@ import it.uniroma3.siw.SiwBooks.model.Book;
 import it.uniroma3.siw.SiwBooks.model.BookImage;
 import it.uniroma3.siw.SiwBooks.service.BookService;
 import jakarta.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -41,32 +39,29 @@ public class DataInitializer {
 
                 Book book = bookService.findByTitle(title);
                 if (book != null) {
-                    // Lettura e set cover principale
-                    byte[] coverBytes = Files
-                            .readAllBytes(Paths.get("src/main/resources/static/images/" + coverFileName));
-                    book.setCoverImage(coverBytes);
+                    try (InputStream coverStream = getClass().getClassLoader().getResourceAsStream("static/images/" + coverFileName)) {
+                        if (coverStream != null) {
+                            byte[] coverBytes = coverStream.readAllBytes();
+                            book.setCoverImage(coverBytes);
+                        }
+                    }
 
-                    // Assicurati che il set images sia inizializzato
                     if (book.getImages() == null) {
                         book.setImages(new HashSet<>());
                     }
 
-                    // Carica immagini aggiuntive numerate (Title1.jpeg, Title2.jpeg, ...)
                     int index = 1;
                     while (true) {
                         String extraFileName = String.format("%s%d.jpeg", title, index);
-                        java.nio.file.Path extraPath = Paths.get("src/main/resources/static/images/" + extraFileName);
-
-                        if (!Files.exists(extraPath))
-                            break;
-
-                        byte[] extraBytes = Files.readAllBytes(extraPath);
-                        BookImage extraImage = new BookImage();
-                        extraImage.setBook(book);
-                        extraImage.setImageData(extraBytes);
-
-                        book.getImages().add(extraImage);
-                        index++;
+                        try (InputStream extraStream = getClass().getClassLoader().getResourceAsStream("static/images/" + extraFileName)) {
+                            if (extraStream == null) break;
+                            byte[] extraBytes = extraStream.readAllBytes();
+                            BookImage extraImage = new BookImage();
+                            extraImage.setBook(book);
+                            extraImage.setImageData(extraBytes);
+                            book.getImages().add(extraImage);
+                            index++;
+                        }
                     }
 
                     bookService.save(book);
@@ -77,5 +72,4 @@ public class DataInitializer {
             }
         };
     }
-
 }
