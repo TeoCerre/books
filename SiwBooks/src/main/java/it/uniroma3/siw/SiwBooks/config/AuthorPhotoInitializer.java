@@ -2,14 +2,12 @@ package it.uniroma3.siw.SiwBooks.config;
 
 import it.uniroma3.siw.SiwBooks.model.Author;
 import it.uniroma3.siw.SiwBooks.service.AuthorService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.Map;
 
 @Configuration
@@ -39,16 +37,14 @@ public class AuthorPhotoInitializer {
 
                 Author author = authorService.findByNameAndSurname(name, surname);
                 if (author != null) {
-                    byte[] photoBytes = Files.readAllBytes(InputStream is = getClass().getClassLoader().getResourceAsStream("static/images/" + fileName);
-if (is != null) {
-    byte[] photoBytes = is.readAllBytes();
-    author.setPhoto(photoBytes);
-    authorService.save(author);
-}
-);
-                    author.setPhoto(photoBytes);
-                    authorService.save(author);
-                    System.out.println("Foto caricata per: " + fullName);
+                    try (InputStream photoStream = getClass().getClassLoader().getResourceAsStream("static/images/" + fileName)) {
+                        if (photoStream != null) {
+                            byte[] photoBytes = photoStream.readAllBytes();
+                            author.setPhoto(photoBytes);
+                            authorService.save(author);
+                            System.out.println("Foto caricata per: " + fullName);
+                        }
+                    }
                 } else {
                     System.out.println("Autore non trovato: " + fullName);
                 }
