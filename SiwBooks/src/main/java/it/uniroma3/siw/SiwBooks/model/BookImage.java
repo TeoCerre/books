@@ -17,7 +17,6 @@ public class BookImage {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    // Getter e setter
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
