@@ -38,38 +38,38 @@ public class ReviewController {
             @AuthenticationPrincipal UserDetails userDetails,
             Model model) {
 
-        System.out.println("📥 POST recensione ricevuto per libro ID: " + id);
+        System.out.println("POST recensione ricevuto per libro ID: " + id);
 
         Book book = bookService.findById(id);
         if (book == null) {
-            System.out.println("❌ Libro non trovato");
+            System.out.println("Libro non trovato");
             return "error/404";
         }
 
         if (bindingResult.hasErrors()) {
-            System.out.println("⚠️ Errori nel form: " + bindingResult.getAllErrors());
+            System.out.println("Errori nel form: " + bindingResult.getAllErrors());
             model.addAttribute("book", book);
             model.addAttribute("review", review);
             return "bookDetails";
         }
 
         if (userDetails == null) {
-            System.out.println("❌ UserDetails è null");
+            System.out.println("UserDetails è null");
             return "redirect:/login";
         }
 
-        System.out.println("👤 Utente loggato: " + userDetails.getUsername());
+        System.out.println("Utente loggato: " + userDetails.getUsername());
         User user = userService.getUserByUsername(userDetails.getUsername());
 
         if (user == null) {
-            System.out.println("❌ Utente non trovato nel database");
+            System.out.println("Utente non trovato nel database");
             return "error/404";
         }
 
         review.setBook(book);
         review.setAuthor(user);
         reviewService.save(review);
-        System.out.println("✅ Recensione salvata");
+        System.out.println("Recensione salvata");
 
         return "redirect:/books/" + id;
     }
