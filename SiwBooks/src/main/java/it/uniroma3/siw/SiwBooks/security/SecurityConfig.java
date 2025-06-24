@@ -46,7 +46,7 @@ public class SecurityConfig {
                                                 .deleteCookies("JSESSIONID")
                                                 .permitAll())
                                 .exceptionHandling(exception -> exception
-                                                .accessDeniedHandler(accessDeniedHandler())); // 👈 Aggiunto qui
+                                                .accessDeniedHandler(accessDeniedHandler())); 
 
                 return http.build();
         }
