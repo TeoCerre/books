@@ -50,11 +50,4 @@ UC12 – Eliminazione autore
 Attore primario: Amministratore
 L’amministratore può eliminare un autore dal sistema, previo controllo delle associazioni con i libri esistenti.
 
-UC13 – Registrazione utente
-Attore primario: Utente occasionale
-L’utente occasionale può registrarsi al sistema fornendo le credenziali richieste. Una volta registrato, potrà inserire recensioni.
-
-UC14 – Autenticazione utente
-Attore primario: Utente registrato / Amministratore
-Un utente registrato o un amministratore effettua l’accesso al sistema tramite credenziali. In base al ruolo, avrà accesso alle funzionalità corrispondenti.
 
