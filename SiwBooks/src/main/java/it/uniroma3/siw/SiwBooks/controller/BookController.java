@@ -38,20 +38,20 @@ public class BookController {
     @GetMapping("/books/{id}/cover")
     public ResponseEntity<byte[]> getBookCover(@PathVariable Long id) {
         try {
-            System.out.println("👉 Richiesta cover per libro ID: " + id);
+            System.out.println("Richiesta cover per libro ID: " + id);
             Book book = bookService.findById(id);
             if (book == null) {
-                System.out.println("❌ Libro non trovato");
+                System.out.println("Libro non trovato");
                 return ResponseEntity.notFound().build();
             }
 
             byte[] image = book.getCoverImage();
             if (image == null || image.length == 0) {
-                System.out.println("⚠️ Nessuna immagine trovata");
+                System.out.println("Nessuna immagine trovata");
                 return ResponseEntity.notFound().build();
             }
 
-            System.out.println("✅ Cover trovata: dimensione = " + image.length + " byte");
+            System.out.println("Cover trovata: dimensione = " + image.length + " byte");
 
             return ResponseEntity.ok()
                     .contentType(MediaType.IMAGE_JPEG)
@@ -76,7 +76,6 @@ public class BookController {
         boolean alreadyReviewed = false;
         if (userDetails != null) {
             User currentUser = userService.findByUsername(userDetails.getUsername());
-            // qui currentUser potrebbe essere null, quindi serve controllo:
             if (currentUser != null) {
                 alreadyReviewed = reviewService.hasUserReviewedBook(currentUser.getId(), book.getId());
             }

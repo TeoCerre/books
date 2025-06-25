@@ -1,0 +1,53 @@
+UC1 – Consultazione elenco libri
+Attore primario: Utente occasionale
+L’utente occasionale può accedere al sistema per consultare la lista completa dei libri presenti. Il sistema mostra per ogni libro le informazioni disponibili: titolo, anno di pubblicazione, valutazione media e immagini.
+
+UC2 – Consultazione elenco libri
+Attore primario: Utente occasionale
+L’utente occasionale può accedere al sistema per consultare i 5 libri con la valutazione media più alta. Il sistema mostra per ogni libro le informazioni disponibili: titolo, anno di pubblicazione, valutazione media e immagini.
+
+UC3 – Consultazione dettagli libro
+Attore primario: Utente occasionale
+L’utente seleziona un libro dall’elenco per visualizzare i dettagli. Il sistema mostra tutte le informazioni sul libro, incluse immagini, autori e recensioni eventualmente presenti.
+
+UC4 – Consultazione elenco autori
+Attore primario: Utente occasionale
+L’utente occasionale può accedere al sistema per consultare la lista completa degli autori presenti. Il sistema mostra per ogni autore le informazioni disponibili: nome e data di nascita.
+
+UC5 – Consultazione profilo autore
+Attore primario: Utente occasionale
+L’utente può selezionare un autore da un libro per visualizzarne il profilo. Il sistema mostra nome, cognome, data di nascita, eventuale data di morte, nazionalità e fotografia.
+
+UC6 – Aggiunta recensione
+Attore primario: Utente registrato
+L’utente registrato può aggiungere una recensione a un libro. Il sistema consente l’inserimento di un titolo, un voto (intero da 1 a 5) e un testo. Ogni utente può recensire un determinato libro una sola volta.
+
+UC6 – Rimozione recensione
+Attore primario: Amministratore
+L’amministratore può rimuovere una recensione dal sistema. Il sistema non consente la modifica delle recensioni.
+
+UC7 – Inserimento nuovo libro
+Attore primario: Amministratore
+L’amministratore può aggiungere un nuovo libro al sistema, specificando titolo, anno, una o più immagini e selezionando uno o più autori esistenti (oppure creandone di nuovi).
+
+UC8 – Modifica dati libro
+Attore primario: Amministratore
+L’amministratore può aggiornare i dati di un libro già presente nel sistema, ad esempio aggiungendo o rimuovendo autori del libro, modificando il titolo o aggiornando le immagini associate.
+
+UC9 – Eliminazione libro
+Attore primario: Amministratore
+L’amministratore può eliminare un libro dal sistema. Questa operazione comporta anche la rimozione delle recensioni associate.
+
+UC10 – Inserimento nuovo autore
+Attore primario: Amministratore
+L’amministratore può creare un nuovo autore inserendo nome, cognome, data di nascita, eventuale data di morte, nazionalità e fotografia.
+
+UC11 – Modifica dati autore
+Attore primario: Amministratore
+L’amministratore può aggiornare i dati di un autore esistente.
+
+UC12 – Eliminazione autore
+Attore primario: Amministratore
+L’amministratore può eliminare un autore dal sistema, previo controllo delle associazioni con i libri esistenti.
+
+

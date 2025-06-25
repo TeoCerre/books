@@ -39,8 +39,6 @@ public class AdminController {
         return "admin/adminHome";
     }
 
-    /* ---------------- BOOKS ------------------ */
-
     @GetMapping("/books/new")
     public String newBook(Model model) {
         Book book = new Book();
@@ -91,14 +89,14 @@ public class AdminController {
 
     @GetMapping("/books/edit/{id}")
     public String editBook(@PathVariable Long id, Model model) {
-        Book book = bookService.findByIdWithReviews(id); // o con immagini se hai un metodo apposito
+        Book book = bookService.findByIdWithReviews(id); 
         if (book == null) {
             return "redirect:/admin/books";
         }
 
         model.addAttribute("book", book);
         model.addAttribute("authors", authorService.findAll());
-        model.addAttribute("images", book.getImages()); // 👈 aggiungi le immagini al model
+        model.addAttribute("images", book.getImages()); 
         return "admin/editBook";
     }
 
@@ -166,14 +164,14 @@ public class AdminController {
         if (image != null) {
             Book book = image.getBook();
             book.getImages().remove(image);
-            bookService.deleteImage(image); // metodo da implementare nel service/repository
+            bookService.deleteImage(image); 
             bookService.save(book);
             return "redirect:/admin/books/edit/" + book.getId();
         }
         return "redirect:/admin/books";
     }
 
-    /* ---------------- AUTHORS ------------------ */
+   
 
     @GetMapping("/authors/new")
     public String newAuthor(Model model) {
@@ -288,7 +286,6 @@ public class AdminController {
         return "redirect:/admin/autori";
     }
 
-    /* ---------------- REVIEWS ------------------ */
 
     @GetMapping("/reviews/delete")
     public String deleteReviews(Model model) {
@@ -302,7 +299,6 @@ public class AdminController {
         return "redirect:/admin/reviews/delete";
     }
 
-    /* ---------------- BINDER ------------------ */
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
