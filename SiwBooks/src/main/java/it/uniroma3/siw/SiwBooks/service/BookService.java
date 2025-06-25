@@ -1,6 +1,8 @@
 package it.uniroma3.siw.SiwBooks.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.SiwBooks.model.Book;
 import it.uniroma3.siw.SiwBooks.model.BookImage;
+import it.uniroma3.siw.SiwBooks.model.User;
 import it.uniroma3.siw.SiwBooks.repository.BookRepository;
 import it.uniroma3.siw.SiwBooks.repository.BookImageRepository;
 import it.uniroma3.siw.SiwBooks.repository.ReviewRepository;
@@ -44,6 +47,14 @@ public class BookService {
     @Transactional
     public Book findByTitle(String title) {
         return bookRepository.findByTitle(title);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Book> getBooksToRereadForUser(User user) {
+        if (user != null) {
+            return this.findBooksReviewedByUser(user.getId());
+        }
+        return List.of();
     }
 
     @Transactional
@@ -103,6 +114,33 @@ public class BookService {
     @Transactional
     public List<Book> findBooksReviewedByUser(Long userId) {
         return reviewRepository.findBooksReviewedByUser(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Long, Double> getAverageRatingsForBooks(List<Book> books) {
+        Map<Long, Double> averageRatings = new HashMap<>();
+        for (Book book : books) {
+            Double avg = this.getAverageRatingForBook(book.getId());
+            averageRatings.put(book.getId(), avg != null ? avg : 0.0);
+        }
+        return averageRatings;
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Long, String> getFirstReviewTextsForBooks(List<Book> books) {
+        Map<Long, String> firstReviewTexts = new HashMap<>();
+        for (Book book : books) {
+            if (book.getReviews() != null && !book.getReviews().isEmpty()) {
+                String text = book.getReviews().stream()
+                        .findFirst()
+                        .map(r -> r.getText())
+                        .orElse("Nessuna recensione");
+                firstReviewTexts.put(book.getId(), text);
+            } else {
+                firstReviewTexts.put(book.getId(), "Nessuna recensione");
+            }
+        }
+        return firstReviewTexts;
     }
 
 }

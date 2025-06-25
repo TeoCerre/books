@@ -1,12 +1,15 @@
 package it.uniroma3.siw.SiwBooks.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.SiwBooks.repository.UserRepository;
 import it.uniroma3.siw.SiwBooks.model.Role;
 import it.uniroma3.siw.SiwBooks.model.User;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -33,6 +36,15 @@ public class UserService {
         user.setRole(Role.REGISTERED);
         userRepository.save(user);
 
+    }
+
+    @Transactional(readOnly = true)
+    public User getAuthenticatedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
+            return this.findByUsername(auth.getName());
+        }
+        return null;
     }
 
 }
