@@ -136,3 +136,22 @@ nav ul li a:hover {
 .login-link .login-button:hover {
     background-color: #c58a54;
 }
+
+.error-message {
+    color: #b30000; /* rosso acceso */
+    background-color: #ffe6e6; /* sfondo rosa chiaro */
+    border: 1px solid #ffcccc;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+}
+.error-message {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
